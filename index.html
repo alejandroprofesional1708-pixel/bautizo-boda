@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestra Boda y Bautizo</title>
-    <!-- Fuentes premium de Google Fonts -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -44,23 +43,22 @@
             box-sizing: border-box; position: relative; overflow: hidden;
         }
 
-        /* CONFIGURACIÓN DE LAS IMÁGENES DE ROSAS EN LAS ESQUINAS */
+        /* DISEÑO DE ROSAS AUTOMÁTICAS (SVG INTEGRADO) */
         .flor-esquina {
             position: absolute;
-            width: 150px; /* Tamaño adaptable óptimo para móviles */
+            width: 130px;
             height: auto;
-            opacity: 0.9;
-            pointer-events: none; /* Evita que interfiera con los clics del usuario */
+            pointer-events: none;
             z-index: 1;
         }
         .flor-top-left {
-            top: 0;
-            left: 0;
+            top: -5px;
+            left: -5px;
         }
         .flor-bottom-right {
-            bottom: 0;
-            right: 0;
-            transform: rotate(180deg); /* Gira la imagen para la esquina inferior */
+            bottom: -5px;
+            right: -5px;
+            transform: rotate(180deg);
         }
 
         /* ELEMENTOS DE TEXTO */
@@ -103,9 +101,25 @@
     <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
     <div class="invitacion-container">
         
-        <!-- CAMBIO A IMÁGENES REALES EN LAS ESQUINAS -->
-        <img class="flor-esquina flor-top-left" src="esquina-rosas.png" alt="Flores decorativas superiores">
-        <img class="flor-esquina flor-bottom-right" src="esquina-rosas.png" alt="Flores decorativas inferiores">
+        <!-- Gráficos vectoriales de rosas que se generan solos -->
+        <svg class="flor-esquina flor-top-left" viewBox="0 0 120 120" fill="none" xmlns="http://w3.org">
+            <path d="M0 0C40 10 50 50 0 60Z" fill="#f4eae1" opacity="0.6"/>
+            <circle cx="30" cy="30" r="22" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
+            <circle cx="30" cy="30" r="15" fill="#eddcd2" stroke="#c5a059" stroke-width="0.6"/>
+            <circle cx="30" cy="30" r="8" fill="#e8c5c5" />
+            <path d="M30 52C42 60 38 72 32 80C22 70 28 60 30 52Z" fill="#decfa6" opacity="0.8"/>
+            <path d="M52 30C60 42 72 38 80 32C70 22 60 28 52 30Z" fill="#decfa6" opacity="0.8"/>
+            <circle cx="60" cy="60" r="7" fill="#fcf8f2" stroke="#c5a059" stroke-width="0.5"/>
+        </svg>
+
+        <svg class="flor-esquina flor-bottom-right" viewBox="0 0 120 120" fill="none" xmlns="http://w3.org">
+            <path d="M0 0C40 10 50 50 0 60Z" fill="#f4eae1" opacity="0.6"/>
+            <circle cx="30" cy="30" r="22" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
+            <circle cx="30" cy="30" r="15" fill="#eddcd2" stroke="#c5a059" stroke-width="0.6"/>
+            <circle cx="30" cy="30" r="8" fill="#e8c5c5" />
+            <path d="M30 52C42 60 38 72 32 80C22 70 28 60 30 52Z" fill="#decfa6" opacity="0.8"/>
+            <path d="M52 30C60 42 72 38 80 32C70 22 60 28 52 30Z" fill="#decfa6" opacity="0.8"/>
+        </svg>
 
         <h2>Invitación Especial</h2>
         <h1>Nuestra Boda & Bautizo</h1>
@@ -131,31 +145,26 @@
     </div>
 
     <script>
-        // Animación para desvanecer el sobre
         function abrirInvitacion() {
             const sobre = document.getElementById('pantalla-sobre');
             sobre.style.opacity = '0';
             setTimeout(() => { sobre.style.display = 'none'; }, 800);
         }
 
-        // Lectura de parámetros dinámicos desde la URL
         const params = new URLSearchParams(window.location.search);
         const titulo = params.get('titulo') || 'Invitado Especial';
         const nombre = params.get('nombre') || 'Amigo o Familiar';
         const cupos = params.get('cupos') || '1';
         const mesa = params.get('mesa') || 'Por asignar';
 
-        // Renderizado de datos en la web
         document.getElementById('sobre-nombre').innerText = nombre;
         document.getElementById('txt-titulo').innerText = titulo;
         document.getElementById('txt-nombre').innerText = nombre;
         document.getElementById('txt-cupos').innerText = `Cupos confirmados: ${cupos}`;
         document.getElementById('txt-mesa').innerText = `Mesa: ${mesa}`;
 
-        // CONEXIÓN DINÁMICA CON TU GOOGLE FORM RELLENADO PREVIAMENTE
-        // Reemplaza esta URL por el enlace real terminado en /viewform de tu formulario
+        // Tu Google Form
         const urlBaseForm = "https://google.com";
-        // Reemplaza este id de campo por el tuyo correspondiente a la pregunta del Nombre
         const idPreguntaNombre = "entry.12345678"; 
 
         const urlFinalForm = `${urlBaseForm}?embedded=true&${idPreguntaNombre}=${encodeURIComponent(nombre)}`;
