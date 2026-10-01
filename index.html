@@ -2,10 +2,120 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Bautizo y Boda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Boda y Bautizo</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fbf9f6;
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .invitation-card {
+            background-color: #ffffff;
+            max-width: 450px;
+            width: 90%;
+            margin: 20px auto;
+            padding: 40px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #eae5dc;
+        }
+        .ornament {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 45px;
+            color: #c5a059;
+            margin: 10px 0;
+            font-weight: normal;
+        }
+        h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #7a7a7a;
+            margin-bottom: 30px;
+        }
+        .details {
+            margin: 30px 0;
+            border-top: 1px solid #f0eae1;
+            border-bottom: 1px solid #f0eae1;
+            padding: 20px 0;
+        }
+        .date {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a4a4a;
+            margin-bottom: 5px;
+        }
+        .time {
+            font-size: 14px;
+            color: #8a8a8a;
+            margin-bottom: 15px;
+        }
+        .place {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .btn-confirm {
+            display: inline-block;
+            background-color: #c5a059;
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+        }
+        .btn-confirm:hover {
+            background-color: #b38f4b;
+        }
+    </style>
 </head>
 <body>
-    <h1>¡Bienvenidos a nuestra celebración!</h1>
-    <p>Próximamente más información sobre el bautizo y la boda.</p>
+
+    <div class="invitation-card">
+        <div class="ornament">✨</div>
+        <h2>Invitación Especial</h2>
+        <h1>Nuestra Boda & Bautizo</h1>
+        <div class="ornament">✦</div>
+        
+        <p style="font-size: 15px; font-style: italic; color: #666; padding: 0 10px;">
+            Hay momentos en la vida que son inolvidables, y compartirlos con los que más amamos los hace eternos. Acompáñanos en este doble motivo de felicidad.
+        </p>
+
+        <div class="details">
+            <div class="date">Sábado, 17 de Octubre</div>
+            <div class="time">Hora: 4:00 PM</div>
+            <div class="place">
+                <strong>Parroquia del Santo Envío</strong><br>
+                Av. Principal #123, Ciudad de México
+            </div>
+        </div>
+
+        <p style="font-size: 12px; color: #999; letter-spacing: 1px;">SE RUEGA CONFIRMAR ASISTENCIA</p>
+        
+        <!-- Reemplaza el número de teléfono abajo (ej: 521234567890) con el tuyo propio -->
+        <a href="https://wa.me" class="btn-confirm" target="_blank">
+            Confirmar por WhatsApp
+        </a>
+    </div>
+
 </body>
 </html>
