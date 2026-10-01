@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Boda y Bautizo</title>
+    <title>Nuestra Boda - Juliana & Manuel</title>
+    <!-- Fuentes premium de Google Fonts -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
-            --dorado: #c5a059;
-            --oscuro: #333333;
+            --dorado-premium: #c5a059;
+            --dorado-suave: #f4eae1;
+            --oscuro: #1c1c1c;
+            --texto-suave: #555555;
             --fondo: #fbf9f6;
         }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--fondo);
@@ -19,156 +23,231 @@
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh;
         }
-        
+
         /* PANTALLA SOBRE (BIENVENIDA) */
         #pantalla-sobre {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            background: linear-gradient(135deg, #111111, #2a2a2a);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 1000; transition: opacity 0.8s ease; text-align: center; color: white;
         }
-        .sobre-icono { font-size: 80px; animation: flotar 3s ease-in-out infinite; cursor: pointer; }
+        .sobre-icono { font-size: 90px; animation: flotar 3s ease-in-out infinite; cursor: pointer; }
         .btn-abrir {
-            margin-top: 20px; background-color: var(--dorado); color: white; border: none;
-            padding: 12px 35px; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;
-            border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(197,160,89,0.4); font-weight: 600;
+            margin-top: 25px; background-color: var(--dorado-premium); color: white; border: none;
+            padding: 14px 40px; font-size: 13px; text-transform: uppercase; letter-spacing: 3px;
+            border-radius: 25px; cursor: pointer; box-shadow: 0 4px 20px rgba(197,160,89,0.4); font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-abrir:hover { background-color: #b38e4b; transform: scale(1.05); }
+
+        /* ENTORNO CONTENEDOR EN PC (1240 x 1080) Y RESPONSIVE EN MÓVIL */
+        .invitacion-frame {
+            width: 100%;
+            max-width: 1240px;
+            min-height: 90vh;
+            margin: 40px auto;
+            background: white;
+            box-sizing: border-box;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            border-radius: 24px;
+            border: 1px solid #eae5dc;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* CONTENEDOR PRINCIPAL RESPONSIVE */
-        .invitacion-container {
-            max-width: 500px; width: 90%; background: white; margin: 30px auto;
-            padding: 70px 25px 40px 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.04);
-            border-radius: 16px; text-align: center; border: 1px solid #eae5dc; 
-            box-sizing: border-box; position: relative; overflow: hidden;
-        }
-
-        /* DISEÑO DE ROSAS AUTOMÁTICAS (SVG INTEGRADO) */
+        /* DISEÑO DE ROSAS AUTOMÁTICAS ASIMÉTRICAS */
         .flor-esquina {
             position: absolute;
-            width: 130px;
+            width: 260px;
             height: auto;
             pointer-events: none;
             z-index: 1;
+            opacity: 0.9;
         }
-        .flor-top-left {
-            top: -5px;
-            left: -5px;
+        .flor-top-left { top: -20px; left: -20px; }
+        .flor-bottom-right { bottom: -20px; right: -20px; transform: rotate(180deg); }
+
+        /* ESTRUCTURA DE CONTENIDO EDITORIAL */
+        .header-section {
+            text-align: center;
+            padding: 80px 40px 40px 40px;
+            position: relative;
+            z-index: 2;
         }
-        .flor-bottom-right {
-            bottom: -5px;
-            right: -5px;
-            transform: rotate(180deg);
+        .intro-label {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 5px;
+            color: var(--dorado-premium);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        h1.nombres-principales {
+            font-family: 'Great Vibes', cursive;
+            font-size: 72px;
+            color: var(--dorado-premium);
+            margin: 10px 0;
+            font-weight: normal;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+        }
+        .ampersand {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            display: block;
+            color: #888;
+            margin: -5px 0;
         }
 
-        /* ELEMENTOS DE TEXTO */
-        h1 { font-family: 'Great Vibes', cursive; font-size: 52px; color: var(--dorado); margin: 15px 0; font-weight: normal; position: relative; z-index: 2; }
-        h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 4px; color: #777; margin-bottom: 25px; position: relative; z-index: 2; }
-        p.introduccion { font-style: italic; color: #666; font-size: 14px; padding: 0 15px; position: relative; z-index: 2; }
-        
-        /* BLOQUE DINÁMICO DE INVITADO */
-        .seccion-invitado { 
-            background-color: #fdfcfb; border: 1px dashed var(--dorado); 
-            padding: 20px; border-radius: 10px; margin: 25px 0; position: relative; z-index: 2;
+        /* SECCIÓN DE LA HISTORIA (STORYTELLING) */
+        .historia-box {
+            max-width: 750px;
+            margin: 0 auto 50px auto;
+            padding: 0 30px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
         }
-        .badge-invitado { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--dorado); font-weight: 600; }
-        .nombre-invitado { font-size: 22px; font-weight: 400; margin: 8px 0; color: var(--oscuro); }
-        .detalles-pases { font-size: 13px; color: #666; margin-top: 5px; }
-        
-        /* SECCIÓN FORMULARIO GOOGLE FORMS */
+        .historia-texto {
+            font-size: 16px;
+            line-height: 2;
+            color: var(--texto-suave);
+            font-style: italic;
+            font-weight: 300;
+        }
+        .historia-texto span {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: var(--dorado-premium);
+            font-style: normal;
+        }
+        .linea-separadora {
+            width: 60px;
+            height: 1px;
+            background-color: var(--dorado-premium);
+            margin: 40px auto;
+            position: relative;
+        }
+        .linea-separadora::after {
+            content: "✦";
+            position: absolute;
+            top: -10px; left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 10px;
+            color: var(--dorado-premium);
+            font-size: 12px;
+        }
+
+        /* GRID LAYOUT EN PC (Doble columna para bloques clave) */
+        .detalles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            padding: 0 60px 40px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* BLOQUES INDIVIDULES DE DISEÑO */
+        .tarjeta-info {
+            background-color: #fdfcfb;
+            border: 1px solid #f2ede4;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+            transition: transform 0.3s ease;
+        }
+        .tarjeta-info:hover { transform: translateY(-5px); }
+        .tarjeta-info h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            letter-spacing: 3px;
+            color: var(--dorado-premium);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Invitado Personalizado */
+        .nombre-invitado { font-size: 26px; font-weight: 400; margin: 10px 0; color: var(--oscuro); }
+        .pases-badge {
+            display: inline-block; background-color: var(--dorado-suave);
+            color: #8c6f37; font-size: 12px; padding: 6px 16px;
+            border-radius: 20px; font-weight: 600; letter-spacing: 1px; margin-top: 5px;
+        }
+
+        /* Formulario Incrustado Adaptable */
         .form-container {
-            margin-top: 30px; border-top: 1px solid #f0eae1; padding-top: 25px; position: relative; z-index: 2;
+            width: 100%;
+            margin-top: auto;
+            border-top: 1px solid #f0eae1;
+            background-color: #faf8f5;
+            padding: 60px 40px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+            text-align: center;
         }
-        iframe { width: 100%; height: 550px; border: none; border-radius: 10px; background-color: #ffffff; }
-        
+        iframe {
+            width: 100%;
+            max-width: 850px;
+            height: 500px;
+            border: none;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        /* ANIMACIONES */
         @keyframes flotar {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
+
+        /* RESPONSIVE: Adaptaciones críticas para pantallas móviles */
+        @media (max-width: 768px) {
+            .invitacion-frame { margin: 10px; width: calc(100% - 20px); border-radius: 16px; }
+            h1.nombres-principales { font-size: 50px; }
+            .detalles-grid { padding: 0 20px 20px 20px; gap: 20px; }
+            .flor-esquina { width: 140px; }
+            .form-container { padding: 40px 15px; }
+            iframe { height: 550px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA SOBRE (BIENVENIDA) -->
+    <!-- PANTALLA SOBRE (BIENVENIDA INTERACTIVA) -->
     <div id="pantalla-sobre">
         <div class="sobre-icono" onclick="abrirInvitacion()">✉️</div>
-        <p style="letter-spacing: 3px; font-size: 13px; text-transform: uppercase; margin-top: 15px;">Tienes una invitación especial</p>
-        <h3 id="sobre-nombre" style="font-family: 'Great Vibes', cursive; font-size: 35px; color: var(--dorado); font-weight: normal; margin: 10px 0;">Invitado</h3>
-        <button class="btn-abrir" onclick="abrirInvitacion()">Abrir sobre</button>
+        <p style="letter-spacing: 4px; font-size: 12px; text-transform: uppercase; margin-top: 20px;">Tienes una invitación de gala</p>
+        <h3 id="sobre-nombre" style="font-family: 'Great Vibes', cursive; font-size: 40px; color: var(--dorado-premium); font-weight: normal; margin: 10px 0;">Invitado</h3>
+        <button class="btn-abrir" onclick="abrirInvitacion()">Abrir Invitación</button>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
-    <div class="invitacion-container">
+    <!-- ENTORNO PREMIUM DE LA INVITACIÓN -->
+    <div class="invitacion-frame">
         
-        <!-- Gráficos vectoriales de rosas que se generan solos -->
-        <svg class="flor-esquina flor-top-left" viewBox="0 0 120 120" fill="none" xmlns="http://w3.org">
-            <path d="M0 0C40 10 50 50 0 60Z" fill="#f4eae1" opacity="0.6"/>
-            <circle cx="30" cy="30" r="22" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
-            <circle cx="30" cy="30" r="15" fill="#eddcd2" stroke="#c5a059" stroke-width="0.6"/>
-            <circle cx="30" cy="30" r="8" fill="#e8c5c5" />
-            <path d="M30 52C42 60 38 72 32 80C22 70 28 60 30 52Z" fill="#decfa6" opacity="0.8"/>
-            <path d="M52 30C60 42 72 38 80 32C70 22 60 28 52 30Z" fill="#decfa6" opacity="0.8"/>
-            <circle cx="60" cy="60" r="7" fill="#fcf8f2" stroke="#c5a059" stroke-width="0.5"/>
+        <!-- Elementos Florales de Enmarcado Complejo (Rosas Recreadas en Vector) -->
+        <svg class="flor-esquina flor-top-left" viewBox="0 0 200 200" fill="none" xmlns="http://w3.org">
+            <path d="M0 0C80 20 120 100 0 140Z" fill="#f4eae1" opacity="0.5"/>
+            <!-- Rosa Principal Estilizada -->
+            <circle cx="60" cy="60" r="45" fill="#fefaf6" stroke="#c5a059" stroke-width="1"/>
+            <circle cx="60" cy="60" r="30" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
+            <circle cx="60" cy="60" r="16" fill="#eddcd2" stroke="#c5a059" stroke-width="0.5"/>
+            <circle cx="60" cy="60" r="8" fill="#e8c5c5" />
+            <!-- Hojas y Ramas Doradas Extra -->
+            <path d="M60 105C80 120 70 150 55 170C35 145 50 120 60 105Z" fill="#decfa6" opacity="0.7" stroke="#c5a059" stroke-width="0.5"/>
+            <path d="M105 60C120 80 150 70 170 55C145 35 120 50 105 60Z" fill="#decfa6" opacity="0.7" stroke="#c5a059" stroke-width="0.5"/>
+            <circle cx="120" cy="120" r="12" fill="#fdfaf5" stroke="#c5a059" stroke-width="0.6"/>
         </svg>
 
-        <svg class="flor-esquina flor-bottom-right" viewBox="0 0 120 120" fill="none" xmlns="http://w3.org">
-            <path d="M0 0C40 10 50 50 0 60Z" fill="#f4eae1" opacity="0.6"/>
-            <circle cx="30" cy="30" r="22" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
-            <circle cx="30" cy="30" r="15" fill="#eddcd2" stroke="#c5a059" stroke-width="0.6"/>
-            <circle cx="30" cy="30" r="8" fill="#e8c5c5" />
-            <path d="M30 52C42 60 38 72 32 80C22 70 28 60 30 52Z" fill="#decfa6" opacity="0.8"/>
-            <path d="M52 30C60 42 72 38 80 32C70 22 60 28 52 30Z" fill="#decfa6" opacity="0.8"/>
-        </svg>
-
-        <h2>Invitación Especial</h2>
-        <h1>Nuestra Boda & Bautizo</h1>
-        <p class="introduccion">
-            "Este sueño no estaría completo sin ti. Acompáñanos en nuestra historia de amor."
-        </p>
-        
-        <!-- SECCIÓN DINÁMICA DE INVITADO -->
-        <div class="seccion-invitado">
-            <div class="badge-invitado" id="txt-titulo">Invitado Especial</div>
-            <div class="nombre-invitado" id="txt-nombre">Amigo o Familiar</div>
-            <div class="detalles-pases">
-                <span id="txt-cupos">Cupos confirmados: 1</span> | 
-                <span id="txt-mesa">Mesa asignada: General</span>
-            </div>
-        </div>
-
-        <!-- SECCIÓN FORMULARIO INCRUSTADO -->
-        <div class="form-container">
-            <h2 style="margin-bottom: 15px;">Confirmar Asistencia</h2>
-            <iframe id="google-form" src="about:blank">Cargando formulario...</iframe>
-        </div>
-    </div>
-
-    <script>
-        function abrirInvitacion() {
-            const sobre = document.getElementById('pantalla-sobre');
-            sobre.style.opacity = '0';
-            setTimeout(() => { sobre.style.display = 'none'; }, 800);
-        }
-
-        const params = new URLSearchParams(window.location.search);
-        const titulo = params.get('titulo') || 'Invitado Especial';
-        const nombre = params.get('nombre') || 'Amigo o Familiar';
-        const cupos = params.get('cupos') || '1';
-        const mesa = params.get('mesa') || 'Por asignar';
-
-        document.getElementById('sobre-nombre').innerText = nombre;
-        document.getElementById('txt-titulo').innerText = titulo;
-        document.getElementById('txt-nombre').innerText = nombre;
-        document.getElementById('txt-cupos').innerText = `Cupos confirmados: ${cupos}`;
-        document.getElementById('txt-mesa').innerText = `Mesa: ${mesa}`;
-
-        // Tu Google Form
-        const urlBaseForm = "https://google.com";
-        const idPreguntaNombre = "entry.12345678"; 
-
-        const urlFinalForm = `${urlBaseForm}?embedded=true&${idPreguntaNombre}=${encodeURIComponent(nombre)}`;
-        document.getElementById('google-form').src = urlFinalForm;
-    </script>
-</body>
-</html>
+        <svg class="flor-esquina flor-bottom-right" viewBox="0 0 200 200" fill="none" xmlns="http://w3.org">
+            <path d="M0 0C80 20 120 100 0 140Z" fill="#f4eae1" opacity="0.5"/>
+            <circle cx="60" cy="60" r="45" fill="#fefaf6" stroke="#c5a059" stroke-width="1"/>
+            <circle cx="60" cy="60" r="30" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
+            <circle cx="60" cy="60" r="16" fill="#eddcd2" stroke="#c5a059" stroke-width="0.5"/>
