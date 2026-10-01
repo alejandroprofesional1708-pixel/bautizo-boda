@@ -6,116 +6,131 @@
     <title>Nuestra Boda y Bautizo</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
+        :root {
+            --dorado: #c5a059;
+            --oscuro: #333333;
+            --fondo: #fbf9f6;
+        }
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #fbf9f6;
-            color: #4a4a4a;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--fondo);
+            color: var(--oscuro);
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
             min-height: 100vh;
         }
-        .invitation-card {
-            background-color: #ffffff;
-            max-width: 450px;
-            width: 90%;
-            margin: 20px auto;
-            padding: 40px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border-radius: 15px;
-            text-align: center;
-            border: 1px solid #eae5dc;
+        #pantalla-sobre {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 1000; transition: opacity 0.8s ease; text-align: center; color: white;
         }
-        .ornament {
-            font-size: 24px;
-            color: #d4af37;
-            margin-bottom: 10px;
+        .sobre-icono { font-size: 80px; animation: flotar 3s ease-in-out infinite; cursor: pointer; }
+        .btn-abrir {
+            margin-top: 20px; background-color: var(--dorado); color: white; border: none;
+            padding: 12px 35px; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;
+            border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(197,160,89,0.4); font-weight: 600;
         }
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 45px;
-            color: #c5a059;
-            margin: 10px 0;
-            font-weight: normal;
+        .invitacion-container {
+            max-width: 500px; width: 90%; background: white; margin: 30px auto;
+            padding: 40px 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border-radius: 16px; text-align: center; border: 1px solid #eae5dc; box-sizing: border-box;
         }
-        h2 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #7a7a7a;
-            margin-bottom: 30px;
-        }
-        .details {
-            margin: 30px 0;
+        h1 { font-family: 'Great Vibes', cursive; font-size: 52px; color: var(--dorado); margin: 15px 0; font-weight: normal; }
+        h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 4px; color: #777; margin-bottom: 25px; }
+        .seccion-invitado { background-color: #fcfbfa; border: 1px dashed var(--dorado); padding: 20px; border-radius: 10px; margin: 25px 0; }
+        .badge-invitado { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--dorado); font-weight: 600; }
+        .nombre-invitado { font-size: 22px; font-weight: 400; margin: 8px 0; color: var(--oscuro); }
+        .detalles-pases { font-size: 13px; color: #666; margin-top: 5px; }
+        
+        /* Contenedor del Formulario */
+        .form-container {
+            margin-top: 30px;
             border-top: 1px solid #f0eae1;
-            border-bottom: 1px solid #f0eae1;
-            padding: 20px 0;
+            padding-top: 25px;
         }
-        .date {
-            font-size: 18px;
-            font-weight: 600;
-            color: #4a4a4a;
-            margin-bottom: 5px;
+        iframe {
+            width: 100%;
+            height: 600px; /* Ajusta la altura según qué tan largo sea tu Google Form */
+            border: none;
+            border-radius: 10px;
+            background-color: #ffffff;
         }
-        .time {
-            font-size: 14px;
-            color: #8a8a8a;
-            margin-bottom: 15px;
-        }
-        .place {
-            font-size: 15px;
-            line-height: 1.6;
-        }
-        .btn-confirm {
-            display: inline-block;
-            background-color: #c5a059;
-            color: white;
-            text-decoration: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-            transition: background 0.3s;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
-        }
-        .btn-confirm:hover {
-            background-color: #b38f4b;
+        
+        @keyframes flotar {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
     </style>
 </head>
 <body>
 
-    <div class="invitation-card">
-        <div class="ornament">✨</div>
+    <!-- PANTALLA SOBRE (BIENVENIDA) -->
+    <div id="pantalla-sobre">
+        <div class="sobre-icono" onclick="abrirInvitacion()">✉️</div>
+        <p style="letter-spacing: 3px; font-size: 13px; text-transform: uppercase; margin-top: 15px;">Tienes una invitación especial</p>
+        <h3 id="sobre-nombre" style="font-family: 'Great Vibes', cursive; font-size: 35px; color: var(--dorado); font-weight: normal; margin: 10px 0;">Invitado</h3>
+        <button class="btn-abrir" onclick="abrirInvitacion()">Abrir sobre</button>
+    </div>
+
+    <!-- CONTENIDO DE LA INVITACIÓN -->
+    <div class="invitacion-container">
         <h2>Invitación Especial</h2>
         <h1>Nuestra Boda & Bautizo</h1>
-        <div class="ornament">✦</div>
         
-        <p style="font-size: 15px; font-style: italic; color: #666; padding: 0 10px;">
-            Hay momentos en la vida que son inolvidables, y compartirlos con los que más amamos los hace eternos. Acompáñanos en este doble motivo de felicidad.
-        </p>
-
-        <div class="details">
-            <div class="date">Sábado, 17 de Octubre</div>
-            <div class="time">Hora: 4:00 PM</div>
-            <div class="place">
-                <strong>Parroquia del Santo Envío</strong><br>
-                Av. Principal #123, Ciudad de México
+        <!-- SECCIÓN DINÁMICA DE INVITADO -->
+        <div class="seccion-invitado">
+            <div class="badge-invitado" id="txt-titulo">Invitado Especial</div>
+            <div class="nombre-invitado" id="txt-nombre">Amigo o Familiar</div>
+            <div class="detalles-pases">
+                <span id="txt-cupos">Cupos confirmados: 1</span> | 
+                <span id="txt-mesa">Mesa asignada: General</span>
             </div>
         </div>
 
-        <p style="font-size: 12px; color: #999; letter-spacing: 1px;">SE RUEGA CONFIRMAR ASISTENCIA</p>
-        
-        <!-- Reemplaza el número de teléfono abajo (ej: 521234567890) con el tuyo propio -->
-        <a href="https://wa.me" class="btn-confirm" target="_blank">
-            Confirmar por WhatsApp
-        </a>
+        <!-- SECCIÓN FORMULARIO INCRUSTADO -->
+        <div class="form-container">
+            <h2 style="margin-bottom: 15px;">Confirmar Asistencia</h2>
+            <!-- El iframe cargará dinámicamente tu Google Form mediante JavaScript -->
+            <iframe id="google-form" src="about:blank">Cargando formulario...</iframe>
+        </div>
     </div>
 
+    <script>
+        function abrirInvitacion() {
+            const sobre = document.getElementById('pantalla-sobre');
+            sobre.style.opacity = '0';
+            setTimeout(() => { sobre.style.display = 'none'; }, 800);
+        }
+
+        // Captura de parámetros URL
+        const params = new URLSearchParams(window.location.search);
+        const titulo = params.get('titulo') || 'Invitado Especial';
+        const nombre = params.get('nombre') || 'Amigo o Familiar';
+        const cupos = params.get('cupos') || '1';
+        const mesa = params.get('mesa') || 'Por asignar';
+
+        // Inyectar datos en la interfaz
+        document.getElementById('sobre-nombre').innerText = nombre;
+        document.getElementById('txt-titulo').innerText = titulo;
+        document.getElementById('txt-nombre').innerText = nombre;
+        document.getElementById('txt-cupos').innerText = `Cupos confirmados: ${cupos}`;
+        document.getElementById('txt-mesa').innerText = `Mesa: ${mesa}`;
+
+        // CONFIGURACIÓN DE TU GOOGLE FORM AUTOMÁTICO
+        // 1. Pon aquí la dirección base de tu formulario (terminada en /viewform)
+        const urlBaseForm = "https://google.com";
+        
+        // 2. Coloca aquí el identificador de la pregunta del nombre que obtuviste en el Paso 1
+        const idPreguntaNombre = "entry.12345678"; 
+
+        // Generar enlace dinámico para que el formulario aparezca ya firmado con el nombre del invitado
+        const urlFinalForm = `${urlBaseForm}?embedded=true&${idPreguntaNombre}=${encodeURIComponent(nombre)}`;
+        
+        // Asignar el enlace final al recuadro de la página
+        document.getElementById('google-form').src = urlFinalForm;
+    </script>
 </body>
 </html>
