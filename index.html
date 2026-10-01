@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestra Boda y Bautizo</title>
+    <!-- Fuentes premium de Google Fonts -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
             --dorado: #c5a059;
             --oscuro: #333333;
             --fondo: #fbf9f6;
-            --rosa-suave: #f4eae1;
         }
         body {
             font-family: 'Montserrat', sans-serif;
@@ -21,7 +21,7 @@
             min-height: 100vh;
         }
         
-        /* PANTALLA DEL SOBRE */
+        /* PANTALLA SOBRE (BIENVENIDA) */
         #pantalla-sobre {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -36,38 +36,39 @@
             border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(197,160,89,0.4); font-weight: 600;
         }
 
-        /* CONTENEDOR PRINCIPAL RESPONSIVE CON ROSAS */
+        /* CONTENEDOR PRINCIPAL RESPONSIVE */
         .invitacion-container {
             max-width: 500px; width: 90%; background: white; margin: 30px auto;
-            padding: 60px 25px 40px 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            padding: 70px 25px 40px 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.04);
             border-radius: 16px; text-align: center; border: 1px solid #eae5dc; 
-            box-sizing: border-box;
-            position: relative; overflow: hidden; /* Necesario para que las flores no se salgan */
+            box-sizing: border-box; position: relative; overflow: hidden;
         }
 
-        /* RECREACIÓN DE LAS ROSAS EN LAS ESQUINAS */
+        /* CONFIGURACIÓN DE LAS IMÁGENES DE ROSAS EN LAS ESQUINAS */
         .flor-esquina {
             position: absolute;
-            width: 140px; /* Tamaño ideal adaptable para celular */
+            width: 150px; /* Tamaño adaptable óptimo para móviles */
             height: auto;
-            opacity: 0.85;
-            pointer-events: none; /* No interfiere con los clics */
+            opacity: 0.9;
+            pointer-events: none; /* Evita que interfiera con los clics del usuario */
+            z-index: 1;
         }
         .flor-top-left {
-            top: -10px;
-            left: -10px;
-            transform: rotate(0deg);
+            top: 0;
+            left: 0;
         }
         .flor-bottom-right {
-            bottom: -15px;
-            right: -10px;
-            transform: rotate(180deg);
+            bottom: 0;
+            right: 0;
+            transform: rotate(180deg); /* Gira la imagen para la esquina inferior */
         }
 
-        /* TEXTOS Y DETALLES */
-        h1 { font-family: 'Great Vibes', cursive; font-size: 52px; color: var(--dorado); margin: 15px 0; font-weight: normal; }
-        h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 4px; color: #777; margin-bottom: 25px; }
+        /* ELEMENTOS DE TEXTO */
+        h1 { font-family: 'Great Vibes', cursive; font-size: 52px; color: var(--dorado); margin: 15px 0; font-weight: normal; position: relative; z-index: 2; }
+        h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 4px; color: #777; margin-bottom: 25px; position: relative; z-index: 2; }
+        p.introduccion { font-style: italic; color: #666; font-size: 14px; padding: 0 15px; position: relative; z-index: 2; }
         
+        /* BLOQUE DINÁMICO DE INVITADO */
         .seccion-invitado { 
             background-color: #fdfcfb; border: 1px dashed var(--dorado); 
             padding: 20px; border-radius: 10px; margin: 25px 0; position: relative; z-index: 2;
@@ -76,11 +77,11 @@
         .nombre-invitado { font-size: 22px; font-weight: 400; margin: 8px 0; color: var(--oscuro); }
         .detalles-pases { font-size: 13px; color: #666; margin-top: 5px; }
         
-        /* FORMULARIO GOOGLE FORMS INTEGRADO */
+        /* SECCIÓN FORMULARIO GOOGLE FORMS */
         .form-container {
             margin-top: 30px; border-top: 1px solid #f0eae1; padding-top: 25px; position: relative; z-index: 2;
         }
-        iframe { width: 100%; height: 500px; border: none; border-radius: 10px; background-color: #ffffff; }
+        iframe { width: 100%; height: 550px; border: none; border-radius: 10px; background-color: #ffffff; }
         
         @keyframes flotar {
             0% { transform: translateY(0px); }
@@ -99,36 +100,18 @@
         <button class="btn-abrir" onclick="abrirInvitacion()">Abrir sobre</button>
     </div>
 
-    <!-- CONTENIDO DE LA INVITACIÓN -->
+    <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
     <div class="invitacion-container">
         
-        <!-- ELEMENTOS DE ROSAS RECREADOS CON VECTORES SVG -->
-        <!-- Esquina Superior Izquierda -->
-        <svg class="flor-esquina flor-top-left" viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
-            <path d="M0,0 Q30,10 40,40 Q10,30 0,0" fill="#eae0d5" opacity="0.5"/>
-            <!-- Rosa Principal -->
-            <circle cx="25" cy="25" r="18" fill="#f4eae1" stroke="#c5a059" stroke-width="0.7"/>
-            <circle cx="25" cy="25" r="12" fill="#eddcd2" stroke="#c5a059" stroke-width="0.5"/>
-            <circle cx="25" cy="25" r="6" fill="#dbb5b5" />
-            <!-- Hojas Doradas -->
-            <path d="M25,43 Q35,50 30,60 Q20,50 25,43" fill="#e2d4b7" stroke="#c5a059" stroke-width="0.5"/>
-            <path d="M43,25 Q50,35 60,30 Q50,20 43,25" fill="#e2d4b7" stroke="#c5a059" stroke-width="0.5"/>
-            <!-- Pequeño capullo secundario -->
-            <circle cx="50" cy="50" r="6" fill="#f4eae1" stroke="#c5a059" stroke-width="0.5"/>
-        </svg>
-
-        <!-- Esquina Inferior Derecha -->
-        <svg class="flor-esquina flor-bottom-right" viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
-            <path d="M0,0 Q30,10 40,40 Q10,30 0,0" fill="#eae0d5" opacity="0.5"/>
-            <circle cx="25" cy="25" r="18" fill="#f4eae1" stroke="#c5a059" stroke-width="0.7"/>
-            <circle cx="25" cy="25" r="12" fill="#eddcd2" stroke="#c5a059" stroke-width="0.5"/>
-            <circle cx="25" cy="25" r="6" fill="#dbb5b5" />
-            <path d="M25,43 Q35,50 30,60 Q20,50 25,43" fill="#e2d4b7" stroke="#c5a059" stroke-width="0.5"/>
-            <path d="M43,25 Q50,35 60,30 Q50,20 43,25" fill="#e2d4b7" stroke="#c5a059" stroke-width="0.5"/>
-        </svg>
+        <!-- CAMBIO A IMÁGENES REALES EN LAS ESQUINAS -->
+        <img class="flor-esquina flor-top-left" src="esquina-rosas.png" alt="Flores decorativas superiores">
+        <img class="flor-esquina flor-bottom-right" src="esquina-rosas.png" alt="Flores decorativas inferiores">
 
         <h2>Invitación Especial</h2>
         <h1>Nuestra Boda & Bautizo</h1>
+        <p class="introduccion">
+            "Este sueño no estaría completo sin ti. Acompáñanos en nuestra historia de amor."
+        </p>
         
         <!-- SECCIÓN DINÁMICA DE INVITADO -->
         <div class="seccion-invitado">
@@ -148,27 +131,31 @@
     </div>
 
     <script>
+        // Animación para desvanecer el sobre
         function abrirInvitacion() {
             const sobre = document.getElementById('pantalla-sobre');
             sobre.style.opacity = '0';
             setTimeout(() => { sobre.style.display = 'none'; }, 800);
         }
 
-        // Parámetros URL dinámicos
+        // Lectura de parámetros dinámicos desde la URL
         const params = new URLSearchParams(window.location.search);
         const titulo = params.get('titulo') || 'Invitado Especial';
         const nombre = params.get('nombre') || 'Amigo o Familiar';
         const cupos = params.get('cupos') || '1';
         const mesa = params.get('mesa') || 'Por asignar';
 
+        // Renderizado de datos en la web
         document.getElementById('sobre-nombre').innerText = nombre;
         document.getElementById('txt-titulo').innerText = titulo;
         document.getElementById('txt-nombre').innerText = nombre;
         document.getElementById('txt-cupos').innerText = `Cupos confirmados: ${cupos}`;
         document.getElementById('txt-mesa').innerText = `Mesa: ${mesa}`;
 
-        // Enlace base de tu Google Form rellenado (viewform)
+        // CONEXIÓN DINÁMICA CON TU GOOGLE FORM RELLENADO PREVIAMENTE
+        // Reemplaza esta URL por el enlace real terminado en /viewform de tu formulario
         const urlBaseForm = "https://google.com";
+        // Reemplaza este id de campo por el tuyo correspondiente a la pregunta del Nombre
         const idPreguntaNombre = "entry.12345678"; 
 
         const urlFinalForm = `${urlBaseForm}?embedded=true&${idPreguntaNombre}=${encodeURIComponent(nombre)}`;
