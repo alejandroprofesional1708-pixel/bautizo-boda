@@ -170,6 +170,94 @@
         .contador-num { font-size: 24px; font-weight: 600; color: var(--dorado); }
         .contador-label { font-size: 10px; text-transform: uppercase; color: #666; letter-spacing: 1px; }
 
+        /* ====== REPRODUCTOR DE AUDIO ====== */
+        .audio-card {
+            max-width: 550px;
+            margin: 30px auto;
+            background: var(--gris-suave);
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            border-radius: 18px;
+            padding: 25px 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .audio-titulo {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 34px;
+            color: var(--dorado);
+            margin: 0 0 5px 0;
+            line-height: 1;
+        }
+
+        .audio-subtitulo {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .audio-controles {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-audio {
+            background: var(--dorado);
+            color: white;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
+        }
+        .btn-audio:hover {
+            transform: scale(1.06);
+            box-shadow: 0 6px 18px rgba(197, 160, 89, 0.5);
+        }
+        .btn-audio svg { width: 20px; height: 20px; fill: white; }
+
+        .audio-barra-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .audio-barra {
+            position: relative;
+            height: 6px;
+            background: rgba(197, 160, 89, 0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .audio-progreso {
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--dorado);
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        .audio-tiempos {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #888;
+            letter-spacing: 1px;
+        }
+
         /* ====== CARRUSEL ====== */
         .carrusel-wrapper {
             max-width: 700px;
@@ -265,6 +353,10 @@
 
             .contador-bloque { min-width: 65px; padding: 10px; }
             .contador-num { font-size: 20px; }
+
+            .audio-card { padding: 20px; }
+            .audio-titulo { font-size: 28px; }
+            .btn-audio { width: 46px; height: 46px; }
         }
 
         @media (max-width: 380px) {
@@ -322,7 +414,36 @@
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 2: GALERÍA ====== -->
+        <!-- ====== SECCIÓN 2: MENSAJE DE AUDIO ====== -->
+        <section class="seccion" id="mensaje-audio">
+            <div class="intro-label">Un mensaje para ti</div>
+
+            <div class="audio-card">
+                <div class="audio-titulo">Palabras de Majo</div>
+                <div class="audio-subtitulo">Dale play para escuchar</div>
+
+                <div class="audio-controles">
+                    <button class="btn-audio" id="btnAudio" onclick="toggleAudio()" aria-label="Reproducir">
+                        <svg id="iconoPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="iconoPausa" viewBox="0 0 24 24" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                    </button>
+
+                    <div class="audio-barra-wrapper">
+                        <div class="audio-barra" id="audioBarra" onclick="seekAudio(event)">
+                            <div class="audio-progreso" id="audioProgreso"></div>
+                        </div>
+                        <div class="audio-tiempos">
+                            <span id="audioActual">0:00</span>
+                            <span id="audioDuracion">0:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audioMajo" src="palabras-majo.mp3" preload="metadata"></audio>
+            </div>
+        </section>
+
+        <!-- ====== SECCIÓN 3: GALERÍA ====== -->
         <section class="seccion" id="galeria">
             <div class="intro-label">Galería</div>
             <div class="carrusel-wrapper">
@@ -334,14 +455,14 @@
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 3: ASISTENCIA ====== -->
+        <!-- ====== SECCIÓN 4: ASISTENCIA ====== -->
         <section class="seccion" id="asistencia">
             <div class="intro-label">Asistencia</div>
             <p class="historia-texto">Confirma tu presencia antes del día del evento para reservar tu lugar.</p>
             <a href="https://google.com" class="btn-asistencia" target="_blank">Llenar Formulario</a>
         </section>
 
-        <!-- ====== SECCIÓN 4: DETALLES ====== -->
+        <!-- ====== SECCIÓN 5: DETALLES ====== -->
         <section class="seccion" id="detalles">
             <div class="intro-label">Detalles</div>
             <p class="historia-texto">Traje de Gala Formal.</p>
@@ -385,6 +506,69 @@
 
         actualizarCuentaRegresiva();
         setInterval(actualizarCuentaRegresiva, 1000);
+
+        // ====== REPRODUCTOR DE AUDIO ======
+        const audio = document.getElementById('audioMajo');
+        const btnAudio = document.getElementById('btnAudio');
+        const iconoPlay = document.getElementById('iconoPlay');
+        const iconoPausa = document.getElementById('iconoPausa');
+        const progreso = document.getElementById('audioProgreso');
+        const barra = document.getElementById('audioBarra');
+        const tiempoActual = document.getElementById('audioActual');
+        const tiempoDuracion = document.getElementById('audioDuracion');
+
+        function formatearTiempo(seg) {
+            if (isNaN(seg)) return '0:00';
+            const m = Math.floor(seg / 60);
+            const s = Math.floor(seg % 60);
+            return m + ':' + (s < 10 ? '0' : '') + s;
+        }
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+
+        audio.addEventListener('play', () => {
+            iconoPlay.style.display = 'none';
+            iconoPausa.style.display = 'block';
+        });
+
+        audio.addEventListener('pause', () => {
+            iconoPlay.style.display = 'block';
+            iconoPausa.style.display = 'none';
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            tiempoDuracion.textContent = formatearTiempo(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (!isNaN(audio.duration)) {
+                const pct = (audio.currentTime / audio.duration) * 100;
+                progreso.style.width = pct + '%';
+            }
+            tiempoActual.textContent = formatearTiempo(audio.currentTime);
+        });
+
+        audio.addEventListener('ended', () => {
+            progreso.style.width = '0%';
+            tiempoActual.textContent = '0:00';
+            iconoPlay.style.display = 'block';
+            iconoPausa.style.display = 'none';
+        });
+
+        function seekAudio(e) {
+            const rect = barra.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const pct = clickX / rect.width;
+            if (!isNaN(audio.duration)) {
+                audio.currentTime = pct * audio.duration;
+            }
+        }
     </script>
 </body>
 </html>
