@@ -256,112 +256,41 @@
             letter-spacing: 1px;
         }
 
-        /* ====== CARRUSEL ====== */
-        .carrusel-wrapper {
-            max-width: 700px;
+        /* ====== MÓDULO DE IMAGEN (400x600 fijo) ====== */
+        .imagen-modulo {
+            width: 400px;
+            height: 600px;
+            max-width: 100%;       /* evita desbordar en pantallas muy pequeñas */
             margin: 0 auto;
             position: relative;
-            border-radius: 25px;        /* bordes redondeados del marco */
+            border-radius: 25px;
             overflow: hidden;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             background: #f4f1ea;
         }
 
-        .carrusel-slide {
+        .imagen-modulo .slide {
             display: none;
             width: 100%;
-            height: 400px;
+            height: 100%;
             overflow: hidden;
-            border-radius: 25px;        /* bordes de la imagen */
+            border-radius: 25px;
         }
-        .carrusel-slide.activo { display: block; }
+        .imagen-modulo .slide.activo { display: block; }
 
-        /* La imagen dentro del slide */
-        .carrusel-slide img {
+        .imagen-modulo .slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            border-radius: 25px;        /* bordes redondeados */
-            transition: transform 0.6s ease;   /* hover suave */
+            border-radius: 25px;
+            transition: transform 0.6s ease;
             will-change: transform;
         }
 
         /* Hover: pequeño zoom */
-        .carrusel-slide:hover img {
+        .imagen-modulo .slide:hover img {
             transform: scale(1.05);
-        }
-
-        /* Flechas sobre la imagen */
-        .carrusel-flecha {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(197, 160, 89, 0.85);
-            color: white;
-            border: none;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            transition: background 0.2s, transform 0.2s;
-        }
-        .carrusel-flecha:hover {
-            background: var(--dorado);
-            transform: translateY(-50%) scale(1.08);
-        }
-        .carrusel-flecha.prev { left: 12px; }
-        .carrusel-flecha.next { right: 12px; }
-
-        /* Indicadores (puntos) */
-        .carrusel-puntos {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 6px;
-            z-index: 2;
-            max-width: 90%;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .carrusel-punto {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            transition: background 0.2s, transform 0.2s;
-            border: none;
-            padding: 0;
-        }
-        .carrusel-punto.activo {
-            background: var(--dorado);
-            transform: scale(1.3);
-        }
-
-        .carrusel-nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
-        }
-        .btn-carrusel {
-            background: var(--dorado);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: 600;
         }
 
         /* ====== BOTÓN ASISTENCIA ====== */
@@ -418,10 +347,8 @@
                 margin: 25px auto;
             }
 
-            .carrusel-wrapper { border-radius: 20px; }
-            .carrusel-slide { height: 280px; border-radius: 20px; }
-            .carrusel-slide img { border-radius: 20px; }
-            .carrusel-flecha { width: 36px; height: 36px; font-size: 16px; }
+            /* El módulo de imagen conserva 400x600 en móvil */
+            .imagen-modulo { width: 400px; height: 600px; }
 
             .contador-bloque { min-width: 65px; padding: 10px; }
             .contador-num { font-size: 20px; }
@@ -429,6 +356,10 @@
             .audio-card { padding: 20px; }
             .audio-titulo { font-size: 28px; }
             .btn-audio { width: 46px; height: 46px; }
+        }
+
+        @media (max-width: 420px) {
+            .imagen-modulo { width: 100%; height: auto; aspect-ratio: 400 / 600; }
         }
 
         @media (max-width: 380px) {
@@ -513,19 +444,12 @@
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 3: GALERÍA / CARRUSEL ====== -->
+        <!-- ====== SECCIÓN 3: GALERÍA / MÓDULO DE IMAGEN ====== -->
         <section class="seccion" id="galeria">
             <div class="intro-label">Galería</div>
 
-            <div class="carrusel-wrapper" id="carrusel">
-                <button class="carrusel-flecha prev" onclick="cambiarSlide(-1)" aria-label="Anterior">❮</button>
-                <button class="carrusel-flecha next" onclick="cambiarSlide(1)" aria-label="Siguiente">❯</button>
-                <div class="carrusel-puntos" id="carruselPuntos"></div>
-            </div>
-
-            <div class="carrusel-nav">
-                <button class="btn-carrusel" onclick="cambiarSlide(-1)">Ant</button>
-                <button class="btn-carrusel" onclick="cambiarSlide(1)">Sig</button>
+            <div class="imagen-modulo" id="imagenModulo">
+                <!-- Los 27 slides se generan por JavaScript -->
             </div>
         </section>
 
@@ -547,18 +471,17 @@
     </main>
 
     <script>
-        // ====== CARRUSEL (27 imágenes desde GitHub, auto-deslizamiento) ======
+        // ====== MÓDULO DE IMAGEN (27 imágenes, auto-rotación) ======
         const TOTAL_IMAGENES = 27;
         const URL_BASE = 'https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/';
-        const INTERVALO_MS = 3000; // 3 segundos entre cada imagen
+        const INTERVALO_MS = 3000; // 3 segundos
 
-        const carruselWrapper = document.getElementById('carrusel');
-        const puntosContenedor = document.getElementById('carruselPuntos');
+        const modulo = document.getElementById('imagenModulo');
 
-        // Crear dinámicamente los slides (1..27) y los puntos
+        // Crear dinámicamente los slides (1..27)
         for (let i = 1; i <= TOTAL_IMAGENES; i++) {
             const slide = document.createElement('div');
-            slide.className = 'carrusel-slide' + (i === 1 ? ' activo' : '');
+            slide.className = 'slide' + (i === 1 ? ' activo' : '');
 
             const img = document.createElement('img');
             img.src = `${URL_BASE}${i}.jpg`;
@@ -566,62 +489,21 @@
             img.loading = 'lazy';
             slide.appendChild(img);
 
-            carruselWrapper.insertBefore(slide, carruselWrapper.firstChild);
-
-            const punto = document.createElement('button');
-            punto.className = 'carrusel-punto' + (i === 1 ? ' activo' : '');
-            punto.setAttribute('aria-label', 'Ir a imagen ' + i);
-            punto.onclick = () => irASlide(i - 1);
-            puntosContenedor.appendChild(punto);
+            modulo.appendChild(slide);
         }
 
         let slideIndice = 0;
-        let autoTimer = null;
 
         function mostrarSlide(nuevoIndice) {
-            const slides = document.querySelectorAll('.carrusel-slide');
-            const puntos = document.querySelectorAll('.carrusel-punto');
-
+            const slides = document.querySelectorAll('.imagen-modulo .slide');
             slides[slideIndice].classList.remove('activo');
-            puntos[slideIndice].classList.remove('activo');
-
             slideIndice = (nuevoIndice + slides.length) % slides.length;
-
             slides[slideIndice].classList.add('activo');
-            puntos[slideIndice].classList.add('activo');
         }
 
-        function cambiarSlide(dir) {
-            mostrarSlide(slideIndice + dir);
-            reiniciarAuto();
-        }
-
-        function irASlide(indice) {
-            mostrarSlide(indice);
-            reiniciarAuto();
-        }
-
-        function iniciarAuto() {
-            detenerAuto();
-            autoTimer = setInterval(() => {
-                mostrarSlide(slideIndice + 1);
-            }, INTERVALO_MS);
-        }
-
-        function detenerAuto() {
-            if (autoTimer) clearInterval(autoTimer);
-        }
-
-        function reiniciarAuto() {
-            iniciarAuto();
-        }
-
-        // Pausar cuando el mouse esté encima
-        carruselWrapper.addEventListener('mouseenter', detenerAuto);
-        carruselWrapper.addEventListener('mouseleave', iniciarAuto);
-
-        // Arrancar
-        iniciarAuto();
+        setInterval(() => {
+            mostrarSlide(slideIndice + 1);
+        }, INTERVALO_MS);
 
         // ====== CUENTA REGRESIVA ======
         const fechaBoda = new Date(2026, 10, 14, 19, 0, 0);
