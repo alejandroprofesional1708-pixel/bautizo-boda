@@ -78,25 +78,31 @@
             line-height: 1.9;
         }
 
-        /* ====== NOMBRES CON PINYON SCRIPT ====== */
+        /* ====== NOMBRES CON PINYON SCRIPT (MÁS PEGADOS) ====== */
         h1.nombres {
             font-family: 'Pinyon Script', cursive;
             font-size: 82px;
             color: var(--dorado);
-            margin: 20px auto;
+            margin: 10px auto 5px auto;
             font-weight: 400;
-            line-height: 1.15;
+            line-height: 1;              /* antes 1.15 → más pegados */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 0;                       /* sin separación entre spans */
+        }
+
+        h1.nombres span {
+            margin: 0;                    /* sin margen adicional */
         }
 
         h1.nombres .ampersand {
             font-size: 52px;
             color: var(--dorado);
             opacity: 0.8;
-            margin: 5px 0;
+            margin: -10px 0;              /* el & se acerca a los nombres */
+            line-height: 0.8;
         }
 
         /* ====== IMAGEN CARTA ====== */
@@ -114,15 +120,15 @@
             object-fit: contain;
         }
 
-        /* ====== PRIMER PÁRRAFO CON ESPACIO EXTRA ====== */
+        /* ====== PRIMER PÁRRAFO CON MÁS ESPACIO ====== */
         .historia-texto {
             max-width: 750px;
-            margin: 60px auto 25px auto;   /* espacio superior aumentado */
+            margin: 100px auto 25px auto;   /* antes 60px → más aire arriba */
             font-size: 16px;
             line-height: 1.9;
             color: #333;
             font-style: italic;
-            padding-top: 20px;              /* aire extra dentro del párrafo */
+            padding-top: 20px;
         }
 
         /* ====== BOX INVITADO ====== */
@@ -242,11 +248,11 @@
             }
 
             h1.nombres { font-size: 54px; }
-            h1.nombres .ampersand { font-size: 38px; }
+            h1.nombres .ampersand { font-size: 38px; margin: -6px 0; }
 
-            /* Menos espacio en móvil, pero sí más que el default */
+            /* Primer párrafo con más aire en móvil también */
             .historia-texto {
-                margin: 40px auto 20px auto;
+                margin: 60px auto 20px auto;
                 padding-top: 15px;
             }
 
@@ -266,9 +272,10 @@
             .seccion { padding: 50px 16px; }
             .intro-label { font-size: 11px; letter-spacing: 3px; }
             h1.nombres { font-size: 46px; }
+            h1.nombres .ampersand { font-size: 32px; margin: -5px 0; }
 
             .historia-texto {
-                margin: 32px auto 18px auto;
+                margin: 50px auto 18px auto;
                 padding-top: 10px;
             }
         }
