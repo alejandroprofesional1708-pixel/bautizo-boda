@@ -92,11 +92,6 @@
             justify-content: center;
         }
 
-        /* Espacio extra debajo de "Manuel Álvarez" */
-        h1.nombres span:first-child {
-            margin-bottom: 2em;   /* 2 espacios de línea */
-        }
-
         h1.nombres .ampersand {
             font-size: 52px;
             color: var(--dorado);
@@ -119,13 +114,15 @@
             object-fit: contain;
         }
 
+        /* ====== PRIMER PÁRRAFO CON ESPACIO EXTRA ====== */
         .historia-texto {
             max-width: 750px;
-            margin: 25px auto;
+            margin: 60px auto 25px auto;   /* espacio superior aumentado */
             font-size: 16px;
             line-height: 1.9;
             color: #333;
             font-style: italic;
+            padding-top: 20px;              /* aire extra dentro del párrafo */
         }
 
         /* ====== BOX INVITADO ====== */
@@ -247,9 +244,10 @@
             h1.nombres { font-size: 54px; }
             h1.nombres .ampersand { font-size: 38px; }
 
-            /* Menos espacio en móvil para no dejar hueco exagerado */
-            h1.nombres span:first-child {
-                margin-bottom: 1.2em;
+            /* Menos espacio en móvil, pero sí más que el default */
+            .historia-texto {
+                margin: 40px auto 20px auto;
+                padding-top: 15px;
             }
 
             .carta-juliana {
@@ -269,8 +267,9 @@
             .intro-label { font-size: 11px; letter-spacing: 3px; }
             h1.nombres { font-size: 46px; }
 
-            h1.nombres span:first-child {
-                margin-bottom: 1em;
+            .historia-texto {
+                margin: 32px auto 18px auto;
+                padding-top: 10px;
             }
         }
     </style>
