@@ -13,7 +13,7 @@
             --dorado: #c5a059;
             --oscuro: #212529;
             --blanco: #ffffff;
-            --gris-suave: rgba(248, 249, 250, 0.85);
+            --gris-suave: rgba(248, 249, 250, 0.75);
         }
         html, body {
             margin: 0; padding: 0; height: 100%;
@@ -34,10 +34,11 @@
             pointer-events: none;
         }
 
+        /* Fondo de la tarjeta más transparente */
         .invitacion-frame {
             width: 100%; max-width: 1240px; height: 90vh; max-height: 1080px;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(2px);
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(3px);
             box-shadow: 0 15px 50px rgba(0,0,0,0.15);
             border-radius: 20px; border: 1px solid #eae5dc;
             position: relative; overflow: hidden;
@@ -63,7 +64,6 @@
             text-transform: uppercase; margin-bottom: 15px;
         }
 
-        /* ====== TIPOGRAFÍA MEA CULPA PARA LOS NOMBRES ====== */
         h1.nombres {
             font-family: 'Mea Culpa', cursive;
             font-size: 72px;
@@ -74,11 +74,19 @@
         }
 
         .historia-texto { max-width: 750px; margin: 25px auto; font-size: 16px; line-height: 1.9; color: #333; font-style: italic; }
-        .box-invitado { background-color: var(--gris-suave); border: 1px dashed var(--dorado); max-width: 450px; margin: 30px auto; padding: 20px; border-radius: 12px; }
+
+        /* Sin borde punteado, ahora borde sutil sólido */
+        .box-invitado {
+            background-color: var(--gris-suave);
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            max-width: 450px; margin: 30px auto;
+            padding: 20px; border-radius: 12px;
+        }
+
         .pases-tag { display: inline-block; background-color: #f4eae1; color: #8c6f37; font-size: 12px; padding: 5px 15px; border-radius: 20px; font-weight: 600; margin: 5px; }
 
         .contador-container { display: flex; justify-content: center; gap: 15px; margin: 35px 0; }
-        .contador-bloque { background: var(--gris-suave); border: 1px solid #ddd; min-width: 75px; padding: 12px; border-radius: 10px; }
+        .contador-bloque { background: var(--gris-suave); border: 1px solid rgba(197, 160, 89, 0.25); min-width: 75px; padding: 12px; border-radius: 10px; }
         .contador-num { font-size: 24px; font-weight: 600; color: var(--dorado); }
         .contador-label { font-size: 10px; text-transform: uppercase; color: #666; letter-spacing: 1px; }
 
@@ -97,7 +105,8 @@
 
         .nav-inferior {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 60px;
-            background: var(--blanco); border-top: 1px solid #eae5dc;
+            background: rgba(255, 255, 255, 0.85);
+            border-top: 1px solid #eae5dc;
             display: flex; justify-content: space-around; align-items: center;
             z-index: 100;
         }
@@ -134,7 +143,6 @@
         <div id="vista-inicio" class="seccion-vista activa">
             <div class="intro-label">Nuestra Boda & Bautizo</div>
 
-            <!-- Nombre con tipografía Mea Culpa -->
             <h1 class="nombres">Manuel Álvarez &amp; Juliana Cañas</h1>
 
             <p class="historia-texto">Celebra la unión de nuestras vidas ante el altar junto con la bendición espiritual de nuestro sagrado bautizo.</p>
