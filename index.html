@@ -78,30 +78,30 @@
             line-height: 1.9;
         }
 
-        /* ====== NOMBRES CON PINYON SCRIPT (MÁS PEGADOS) ====== */
+        /* ====== NOMBRES CON PINYON SCRIPT ====== */
         h1.nombres {
             font-family: 'Pinyon Script', cursive;
             font-size: 82px;
             color: var(--dorado);
             margin: 10px auto 5px auto;
             font-weight: 400;
-            line-height: 1;              /* antes 1.15 → más pegados */
+            line-height: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0;                       /* sin separación entre spans */
+            gap: 0;
         }
 
         h1.nombres span {
-            margin: 0;                    /* sin margen adicional */
+            margin: 0;
         }
 
         h1.nombres .ampersand {
             font-size: 52px;
             color: var(--dorado);
             opacity: 0.8;
-            margin: -10px 0;              /* el & se acerca a los nombres */
+            margin: -10px 0;
             line-height: 0.8;
         }
 
@@ -120,10 +120,10 @@
             object-fit: contain;
         }
 
-        /* ====== PRIMER PÁRRAFO CON MÁS ESPACIO ====== */
+        /* ====== PRIMER PÁRRAFO ====== */
         .historia-texto {
             max-width: 750px;
-            margin: 100px auto 25px auto;   /* antes 60px → más aire arriba */
+            margin: 100px auto 25px auto;
             font-size: 16px;
             line-height: 1.9;
             color: #333;
@@ -250,7 +250,6 @@
             h1.nombres { font-size: 54px; }
             h1.nombres .ampersand { font-size: 38px; margin: -6px 0; }
 
-            /* Primer párrafo con más aire en móvil también */
             .historia-texto {
                 margin: 60px auto 20px auto;
                 padding-top: 15px;
@@ -308,7 +307,6 @@
                  alt="Carta de Juliana"
                  class="carta-juliana">
 
-
             <div class="box-invitado">
                 <div class="intro-label" style="font-size: 11px; margin: 0;">Invitado Especial</div>
                 <div style="font-size: 22px; margin: 5px 0;">Amigo o Familiar</div>
@@ -317,10 +315,10 @@
             </div>
 
             <div class="contador-container">
-                <div class="contador-bloque"><div class="contador-num" id="dias">34</div><div class="contador-label">Días</div></div>
-                <div class="contador-bloque"><div class="contador-num" id="horas">19</div><div class="contador-label">Hrs</div></div>
-                <div class="contador-bloque"><div class="contador-num" id="minutos">16</div><div class="contador-label">Min</div></div>
-                <div class="contador-bloque"><div class="contador-num" id="segundos">45</div><div class="contador-label">Seg</div></div>
+                <div class="contador-bloque"><div class="contador-num" id="dias">0</div><div class="contador-label">Días</div></div>
+                <div class="contador-bloque"><div class="contador-num" id="horas">0</div><div class="contador-label">Hrs</div></div>
+                <div class="contador-bloque"><div class="contador-num" id="minutos">0</div><div class="contador-label">Min</div></div>
+                <div class="contador-bloque"><div class="contador-num" id="segundos">0</div><div class="contador-label">Seg</div></div>
             </div>
         </section>
 
@@ -354,6 +352,7 @@
     </main>
 
     <script>
+        // ====== CARRUSEL ======
         let slideIndice = 0;
         function cambiarSlide(dir) {
             const s = document.querySelectorAll('.carrusel-slide');
@@ -361,6 +360,31 @@
             slideIndice = (slideIndice + dir + s.length) % s.length;
             s[slideIndice].classList.add('activo');
         }
+
+        // ====== CUENTA REGRESIVA ======
+        // Fecha objetivo: 14 de noviembre de 2026, 7:00 p.m. (hora local)
+        // OJO: en JavaScript los meses van de 0 a 11 → noviembre = 10
+        const fechaBoda = new Date(2026, 10, 14, 19, 0, 0);
+
+        function actualizarCuentaRegresiva() {
+            const ahora = new Date();
+            let diferencia = fechaBoda - ahora;
+
+            if (diferencia < 0) diferencia = 0;
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            document.getElementById('dias').textContent = dias;
+            document.getElementById('horas').textContent = horas;
+            document.getElementById('minutos').textContent = minutos;
+            document.getElementById('segundos').textContent = segundos;
+        }
+
+        actualizarCuentaRegresiva();
+        setInterval(actualizarCuentaRegresiva, 1000);
     </script>
 </body>
 </html>
