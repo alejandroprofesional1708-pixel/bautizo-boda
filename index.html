@@ -261,21 +261,36 @@
             max-width: 700px;
             margin: 0 auto;
             position: relative;
-            border-radius: 12px;
+            border-radius: 25px;        /* bordes redondeados del marco */
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             background: #f4f1ea;
         }
+
         .carrusel-slide {
             display: none;
             width: 100%;
             height: 400px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: opacity 0.4s ease;
+            overflow: hidden;
+            border-radius: 25px;        /* bordes de la imagen */
         }
         .carrusel-slide.activo { display: block; }
+
+        /* La imagen dentro del slide */
+        .carrusel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 25px;        /* bordes redondeados */
+            transition: transform 0.6s ease;   /* hover suave */
+            will-change: transform;
+        }
+
+        /* Hover: pequeño zoom */
+        .carrusel-slide:hover img {
+            transform: scale(1.05);
+        }
 
         /* Flechas sobre la imagen */
         .carrusel-flecha {
@@ -403,7 +418,9 @@
                 margin: 25px auto;
             }
 
-            .carrusel-slide { height: 280px; }
+            .carrusel-wrapper { border-radius: 20px; }
+            .carrusel-slide { height: 280px; border-radius: 20px; }
+            .carrusel-slide img { border-radius: 20px; }
             .carrusel-flecha { width: 36px; height: 36px; font-size: 16px; }
 
             .contador-bloque { min-width: 65px; padding: 10px; }
@@ -450,7 +467,7 @@
             </h1>
             &nbsp;
 
-            <img src="cartas-juliana.jpg" alt="Carta de Juliana" class="carta-juliana">
+            <img src="carta-juliana.jpg" alt="Carta de Juliana" class="carta-juliana">
 
             <div class="box-invitado">
                 <div class="intro-label" style="font-size: 11px; margin: 0;">Fecha del evento</div>
@@ -492,7 +509,7 @@
                     </div>
                 </div>
 
-                <audio id="audioMajo" src="palabras-majo.mp2" preload="metadata"></audio>
+                <audio id="audioMajo" src="palabras-majo.mp3" preload="metadata"></audio>
             </div>
         </section>
 
@@ -501,7 +518,6 @@
             <div class="intro-label">Galería</div>
 
             <div class="carrusel-wrapper" id="carrusel">
-                <!-- Los 25 slides se generan por JavaScript para mantener el HTML limpio -->
                 <button class="carrusel-flecha prev" onclick="cambiarSlide(-1)" aria-label="Anterior">❮</button>
                 <button class="carrusel-flecha next" onclick="cambiarSlide(1)" aria-label="Siguiente">❯</button>
                 <div class="carrusel-puntos" id="carruselPuntos"></div>
@@ -531,21 +547,25 @@
     </main>
 
     <script>
-        // ====== CARRUSEL (25 imágenes, auto-deslizamiento) ======
-        const TOTAL_IMAGENES = 25;
-        const EXTENSION = '.jpeg';        // cambia a '.jpge' si tus archivos tienen esa extensión
-        const CARPETA = '';              // ej: 'img/' si las tienes en una subcarpeta
-        const INTERVALO_MS = 3000;       // 3 segundos entre cada imagen
+        // ====== CARRUSEL (27 imágenes desde GitHub, auto-deslizamiento) ======
+        const TOTAL_IMAGENES = 27;
+        const URL_BASE = 'https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/';
+        const INTERVALO_MS = 3000; // 3 segundos entre cada imagen
 
         const carruselWrapper = document.getElementById('carrusel');
         const puntosContenedor = document.getElementById('carruselPuntos');
 
-        // Crear dinámicamente los slides (1..25) y los puntos
+        // Crear dinámicamente los slides (1..27) y los puntos
         for (let i = 1; i <= TOTAL_IMAGENES; i++) {
             const slide = document.createElement('div');
             slide.className = 'carrusel-slide' + (i === 1 ? ' activo' : '');
-            slide.style.backgroundImage = `url('${CARPETA}${i}${EXTENSION}')`;
-            // Insertar antes de las flechas/puntos (al inicio del wrapper)
+
+            const img = document.createElement('img');
+            img.src = `${URL_BASE}${i}.jpg`;
+            img.alt = 'Foto ' + i;
+            img.loading = 'lazy';
+            slide.appendChild(img);
+
             carruselWrapper.insertBefore(slide, carruselWrapper.firstChild);
 
             const punto = document.createElement('button');
@@ -596,7 +616,7 @@
             iniciarAuto();
         }
 
-        // Pausar cuando el mouse esté encima (para que no cambie mientras se mira)
+        // Pausar cuando el mouse esté encima
         carruselWrapper.addEventListener('mouseenter', detenerAuto);
         carruselWrapper.addEventListener('mouseleave', iniciarAuto);
 
