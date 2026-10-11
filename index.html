@@ -41,7 +41,7 @@
         }
 
         .invitacion-frame {
-            width: 100%; max-width: 1240px; height: 90vh; max-height: 1080px;
+            width: 100%; max-width: 1600px; height: 90vh; max-height: 1080px;
             background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(3px);
             box-shadow: 0 15px 50px rgba(0,0,0,0.15);
@@ -90,17 +90,17 @@
         /* ====== IMAGEN CARTA JULIANA ====== */
         .carta-juliana {
             display: block;
-            max-width: 100%;
-            width: 750px;
+            width: 90%;
+            max-width: 1300px;
             height: auto;
-            margin: 25px auto;
-            border-radius: 5%;
+            margin: 30px auto;
+            border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 1px solid rgba(197, 160, 89, 0.35);
+            border: 1px solid #e0e0e0;   /* borde sencillo gris */
             background: #fff;
-            padding: 6px;
+            padding: 8px;
             box-sizing: border-box;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .historia-texto { max-width: 750px; margin: 25px auto; font-size: 16px; line-height: 1.9; color: #333; font-style: italic; }
@@ -152,18 +152,39 @@
             h1.nombres { font-size: 48px; }
             h1.nombres .ampersand { font-size: 32px; }
             :root { --circulo-tamano: 120px; }
-            .seccion-vista { padding: 40px 15px 90px 15px; }
+
+            /* ===== ESPACIO SUPERIOR PARA EL TEXTO EN MÓVIL ===== */
+            .seccion-vista { padding: 100px 15px 90px 15px; }
+
+            /* Espacio extra específico para el intro-label de inicio */
+            #vista-inicio .intro-label {
+                margin-top: 60px;
+                margin-bottom: 25px;
+                line-height: 1.8;
+                padding: 0 5px;
+            }
 
             .carta-juliana {
-                width: 240px;
-                margin: 20px auto;
+                width: 100%;
+                max-width: 100%;
+                margin: 25px auto;
+                border-radius: 10px;
             }
         }
 
         /* ================= PANTALLAS MUY PEQUEÑAS ================= */
         @media (max-width: 380px) {
+            .seccion-vista { padding: 110px 12px 90px 12px; }
+
+            #vista-inicio .intro-label {
+                margin-top: 50px;
+                font-size: 11px;
+                letter-spacing: 3px;
+            }
+
             .carta-juliana {
-                width: 200px;
+                width: 100%;
+                max-width: 100%;
             }
         }
     </style>
