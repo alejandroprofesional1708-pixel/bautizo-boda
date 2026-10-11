@@ -78,25 +78,30 @@
             line-height: 1.9;
         }
 
-        /* ====== NOMBRES CON PINYON SCRIPT (MÁS JUNTOS) ====== */
+        /* ====== NOMBRES CON PINYON SCRIPT ====== */
         h1.nombres {
             font-family: 'Pinyon Script', cursive;
             font-size: 82px;
             color: var(--dorado);
-            margin: 10px auto;
+            margin: 20px auto;
             font-weight: 400;
-            line-height: 0.9;
+            line-height: 1.15;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
+
+        /* Espacio extra debajo de "Manuel Álvarez" */
+        h1.nombres span:first-child {
+            margin-bottom: 2em;   /* 2 espacios de línea */
+        }
+
         h1.nombres .ampersand {
             font-size: 52px;
             color: var(--dorado);
             opacity: 0.8;
-            margin: -10px 0;
-            line-height: 0.8;
+            margin: 5px 0;
         }
 
         /* ====== IMAGEN CARTA ====== */
@@ -239,15 +244,12 @@
                 border-radius: 18px;
             }
 
-            h1.nombres {
-                font-size: 54px;
-                line-height: 0.9;
-                margin: 10px auto;
-            }
-            h1.nombres .ampersand {
-                font-size: 38px;
-                margin: -8px 0;
-                line-height: 0.8;
+            h1.nombres { font-size: 54px; }
+            h1.nombres .ampersand { font-size: 38px; }
+
+            /* Menos espacio en móvil para no dejar hueco exagerado */
+            h1.nombres span:first-child {
+                margin-bottom: 1.2em;
             }
 
             .carta-juliana {
@@ -266,7 +268,10 @@
             .seccion { padding: 50px 16px; }
             .intro-label { font-size: 11px; letter-spacing: 3px; }
             h1.nombres { font-size: 46px; }
-            h1.nombres .ampersand { font-size: 32px; }
+
+            h1.nombres span:first-child {
+                margin-bottom: 1em;
+            }
         }
     </style>
 </head>
