@@ -51,13 +51,13 @@
             box-sizing: border-box; margin: 20px;
         }
 
-        /* ====== SECCIÓN CON FONDO AL 30% DE OPACIDAD ====== */
+        /* ====== SECCIÓN CON FONDO AL 40% DE OPACIDAD ====== */
         .seccion-vista {
             display: none; flex: 1; overflow-y: auto;
             padding: 60px 40px 100px 40px;
             box-sizing: border-box; text-align: center;
             position: relative; z-index: 2;
-            background: rgba(255, 255, 255, 0.40);  /* <-- opacidad al 30% */
+            background: rgba(255, 255, 255, 0.40);
         }
         .seccion-vista.activa { display: block; }
 
@@ -85,7 +85,8 @@
             color: var(--dorado);
             opacity: 0.8;
             margin: 5px 0;
-        }         
+        }
+
         /* ====== IMAGEN CARTA JULIANA ====== */
         .carta-juliana {
             display: block;
@@ -145,6 +146,7 @@
         }
         .nav-item.activo, .nav-item:hover { color: var(--dorado); }
 
+        /* ================= MÓVIL ================= */
         @media (max-width: 768px) {
             .invitacion-frame { height: 100vh; max-height: none; margin: 0; border-radius: 0; }
             h1.nombres { font-size: 48px; }
@@ -152,9 +154,16 @@
             :root { --circulo-tamano: 120px; }
             .seccion-vista { padding: 40px 15px 90px 15px; }
 
-                        .carta-juliana {
+            .carta-juliana {
                 width: 240px;
                 margin: 20px auto;
+            }
+        }
+
+        /* ================= PANTALLAS MUY PEQUEÑAS ================= */
+        @media (max-width: 380px) {
+            .carta-juliana {
+                width: 200px;
             }
         }
     </style>
@@ -178,9 +187,9 @@
             </h1>
 
             <!-- ====== IMAGEN CARTA JULIANA ====== -->
-            <img src="https://raw.githubusercontent.com/alejandroprietario1708-pixel/bautizo-boda/main/Carta%20Juliana.jpg"
-                alt="Carta de Juliana"
-                class="carta-juliana">
+            <img src="https://raw.githubusercontent.com/alejandroprietario1708-pixel/bautizo-boda/main/carta-juliana.jpg"
+                 alt="Carta de Juliana"
+                 class="carta-juliana">
 
             <p class="historia-texto">Celebra la unión de nuestras vidas ante el altar junto con la bendición espiritual de nuestro sagrado bautizo.</p>
 
