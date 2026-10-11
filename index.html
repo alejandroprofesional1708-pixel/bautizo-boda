@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La boda de Juliana y Manuel</title>
-    <title>Bautizo de Luciana Álvarez Cañas</title>
 
     <!-- Tipografía Mea Culpa (Google Fonts) -->
     <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
@@ -15,11 +14,18 @@
             --oscuro: #212529;
             --blanco: #ffffff;
             --gris-suave: rgba(248, 249, 250, 0.75);
+
+            /* ====== VARIABLE CÍRCULO ====== */
+            --circulo-color: rgba(197, 160, 89, 0.35);
+            --circulo-borde: rgba(197, 160, 89, 0.6);
+            --circulo-tamano: 180px;
         }
+
         html, body {
             margin: 0; padding: 0; height: 100%;
             font-family: 'Montserrat', sans-serif;
-            background: #fdfbf7;
+            /* body sin fondo: transparente para ver el video */
+            background: transparent;
             color: var(--oscuro);
             display: flex; justify-content: center; align-items: center;
             overflow: hidden;
@@ -35,7 +41,6 @@
             pointer-events: none;
         }
 
-        /* Fondo de la tarjeta más transparente */
         .invitacion-frame {
             width: 100%; max-width: 1240px; height: 90vh; max-height: 1080px;
             background: rgba(255, 255, 255, 0.35);
@@ -47,9 +52,25 @@
             box-sizing: border-box; margin: 20px;
         }
 
-        .flor-decorativa { position: absolute; width: 240px; height: auto; pointer-events: none; z-index: 10; opacity: 0.85; }
-        .flor-top { top: -15px; left: -15px; }
-        .flor-bottom { bottom: 50px; right: -15px; transform: rotate(180deg); }
+        /* ====== CÍRCULOS DECORATIVOS (usando variables) ====== */
+        .circulo {
+            position: absolute;
+            width: var(--circulo-tamano);
+            height: var(--circulo-tamano);
+            border-radius: 50%;
+            background: var(--circulo-color);
+            border: 1px solid var(--circulo-borde);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .circulo-top {
+            top: -60px;
+            left: -60px;
+        }
+        .circulo-bottom {
+            bottom: 20px;
+            right: -60px;
+        }
 
         .seccion-vista {
             display: none; flex: 1; overflow-y: auto;
@@ -65,18 +86,28 @@
             text-transform: uppercase; margin-bottom: 15px;
         }
 
+        /* ====== NOMBRES APILADOS Y CENTRADOS ====== */
         h1.nombres {
             font-family: 'Mea Culpa', cursive;
             font-size: 72px;
             color: var(--dorado);
-            margin: 20px 0;
+            margin: 20px auto;
             font-weight: 400;
-            line-height: 1.2;
+            line-height: 1.1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        h1.nombres .ampersand {
+            font-size: 46px;
+            color: var(--dorado);
+            opacity: 0.8;
+            margin: 5px 0;
         }
 
         .historia-texto { max-width: 750px; margin: 25px auto; font-size: 16px; line-height: 1.9; color: #333; font-style: italic; }
 
-        /* Sin borde punteado, ahora borde sutil sólido */
         .box-invitado {
             background-color: var(--gris-suave);
             border: 1px solid rgba(197, 160, 89, 0.35);
@@ -121,7 +152,8 @@
         @media (max-width: 768px) {
             .invitacion-frame { height: 100vh; max-height: none; margin: 0; border-radius: 0; }
             h1.nombres { font-size: 48px; }
-            .flor-decorativa { width: 140px; }
+            h1.nombres .ampersand { font-size: 32px; }
+            :root { --circulo-tamano: 120px; }
             .seccion-vista { padding: 40px 15px 90px 15px; }
         }
     </style>
@@ -134,17 +166,20 @@
     </video>
 
     <div class="invitacion-frame">
-        <svg class="flor-decorativa flor-top" viewBox="0 0 120 120" fill="none">
-            <circle cx="30" cy="30" r="25" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
-        </svg>
-        <svg class="flor-decorativa flor-bottom" viewBox="0 0 120 120" fill="none">
-            <circle cx="30" cy="30" r="25" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/>
-        </svg>
+
+        <!-- CÍRCULOS DECORATIVOS -->
+        <div class="circulo circulo-top"></div>
+        <div class="circulo circulo-bottom"></div>
 
         <div id="vista-inicio" class="seccion-vista activa">
-            <div class="intro-label">Nuestra Boda & Bautizo</div>
+            <div class="intro-label">Una unión y la purificación de una nueva vida</div>
 
-            <h1 class="nombres">Manuel Álvarez &amp; Juliana Cañas</h1>
+            <!-- NOMBRES UNO ENCIMA DEL OTRO Y CENTRADOS -->
+            <h1 class="nombres">
+                <span>Manuel Álvarez</span> 
+                <span class="ampersand">&</span>
+                <span>Juliana Cañas</span>
+            </h1>
 
             <p class="historia-texto">Celebra la unión de nuestras vidas ante el altar junto con la bendición espiritual de nuestro sagrado bautizo.</p>
 
