@@ -11,41 +11,34 @@
             --oscuro: #212529;
             --blanco: #ffffff;
             --gris-suave: rgba(248, 249, 250, 0.85);
-            --url-fondo: url('https://wordpress.com');
         }
         body {
             font-family: 'Montserrat', sans-serif;
-            background-image: var(--url-fondo);
-            background-repeat: repeat;
+            background: #fdfbf7;
             color: var(--oscuro);
             margin: 0; padding: 0; min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
         }
-        .invitacion-frame {
-            width: 100%; max-width: 1240px; height: 90vh; max-height: 1080px;
-            background-color: #fdfbf7; /* respaldo mientras carga el video */
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
-            border-radius: 20px; border: 1px solid #eae5dc; position: relative; overflow: hidden;
-            display: flex; flex-direction: column; box-sizing: border-box; margin: 20px;
-        }
 
-        /* ====== VIDEO DE FONDO ====== */
-        .video-fondo {
-            position: absolute;
+        /* ====== VIDEO COMO FONDO RAÍZ (toda la página) ====== */
+        .video-fondo-root {
+            position: fixed;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 0;
+            z-index: -1;
             pointer-events: none;
         }
-        /* Capa de velo para legibilidad del texto */
-        .capa-video {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(rgba(255,255,255,0.72), rgba(255,255,255,0.72));
-            z-index: 1;
-            pointer-events: none;
+
+        .invitacion-frame {
+            width: 100%; max-width: 1240px; height: 90vh; max-height: 1080px;
+            /* Fondo semitransparente para que se vea el video detrás */
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(2px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            border-radius: 20px; border: 1px solid #eae5dc; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; box-sizing: border-box; margin: 20px;
         }
 
         .flor-decorativa { position: absolute; width: 240px; height: auto; pointer-events: none; z-index: 10; opacity: 0.85; }
@@ -80,14 +73,13 @@
     </style>
 </head>
 <body>
+
+    <!-- VIDEO DE FONDO RAÍZ -->
+    <video class="video-fondo-root" autoplay muted loop playsinline preload="auto">
+        <source src="White_rose_blooming_and_closing_20261010190041.MP4" type="video/mp4">
+    </video>
+
     <div class="invitacion-frame">
-
-        <!-- FONDO DE VIDEO -->
-        <video class="video-fondo" autoplay muted loop playsinline preload="auto">
-            <source src="White_rose_blooming_and_closing_20261010190041.MP4" type="video/mp4">
-        </video>
-        <div class="capa-video"></div>
-
         <svg class="flor-decorativa flor-top" viewBox="0 0 120 120" fill="none"><circle cx="30" cy="30" r="25" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/></svg>
         <svg class="flor-decorativa flor-bottom" viewBox="0 0 120 120" fill="none"><circle cx="30" cy="30" r="25" fill="#f4eae1" stroke="#c5a059" stroke-width="0.8"/></svg>
         <div id="vista-inicio" class="seccion-vista activa">
