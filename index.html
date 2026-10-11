@@ -78,14 +78,14 @@
             line-height: 1.9;
         }
 
-        /* ====== NOMBRES CON PINYON SCRIPT ====== */
+        /* ====== NOMBRES CON PINYON SCRIPT (MÁS JUNTOS) ====== */
         h1.nombres {
             font-family: 'Pinyon Script', cursive;
             font-size: 82px;
             color: var(--dorado);
-            margin: 20px auto;
+            margin: 10px auto;
             font-weight: 400;
-            line-height: 1.15;
+            line-height: 0.9;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -95,7 +95,8 @@
             font-size: 52px;
             color: var(--dorado);
             opacity: 0.8;
-            margin: 5px 0;
+            margin: -10px 0;
+            line-height: 0.8;
         }
 
         /* ====== IMAGEN CARTA ====== */
@@ -238,8 +239,16 @@
                 border-radius: 18px;
             }
 
-            h1.nombres { font-size: 54px; }
-            h1.nombres .ampersand { font-size: 38px; }
+            h1.nombres {
+                font-size: 54px;
+                line-height: 0.9;
+                margin: 10px auto;
+            }
+            h1.nombres .ampersand {
+                font-size: 38px;
+                margin: -8px 0;
+                line-height: 0.8;
+            }
 
             .carta-juliana {
                 width: 100%;
@@ -257,6 +266,7 @@
             .seccion { padding: 50px 16px; }
             .intro-label { font-size: 11px; letter-spacing: 3px; }
             h1.nombres { font-size: 46px; }
+            h1.nombres .ampersand { font-size: 32px; }
         }
     </style>
 </head>
