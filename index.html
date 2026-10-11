@@ -93,9 +93,7 @@
             gap: 0;
         }
 
-        h1.nombres span {
-            margin: 0;
-        }
+        h1.nombres span { margin: 0; }
 
         h1.nombres .ampersand {
             font-size: 52px;
@@ -266,6 +264,7 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #f4f1ea;
         }
         .carrusel-slide {
             display: none;
@@ -273,8 +272,65 @@
             height: 400px;
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 0.4s ease;
         }
         .carrusel-slide.activo { display: block; }
+
+        /* Flechas sobre la imagen */
+        .carrusel-flecha {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(197, 160, 89, 0.85);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .carrusel-flecha:hover {
+            background: var(--dorado);
+            transform: translateY(-50%) scale(1.08);
+        }
+        .carrusel-flecha.prev { left: 12px; }
+        .carrusel-flecha.next { right: 12px; }
+
+        /* Indicadores (puntos) */
+        .carrusel-puntos {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+            max-width: 90%;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .carrusel-punto {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            border: none;
+            padding: 0;
+        }
+        .carrusel-punto.activo {
+            background: var(--dorado);
+            transform: scale(1.3);
+        }
+
         .carrusel-nav {
             display: flex;
             justify-content: center;
@@ -325,9 +381,7 @@
 
         /* ================= MÓVIL ================= */
         @media (max-width: 768px) {
-            .landing {
-                padding: 20px 12px 60px 12px;
-            }
+            .landing { padding: 20px 12px 60px 12px; }
 
             .seccion {
                 padding: 60px 20px;
@@ -349,7 +403,8 @@
                 margin: 25px auto;
             }
 
-            .carrusel-slide { height: 250px; }
+            .carrusel-slide { height: 280px; }
+            .carrusel-flecha { width: 36px; height: 36px; font-size: 16px; }
 
             .contador-bloque { min-width: 65px; padding: 10px; }
             .contador-num { font-size: 20px; }
@@ -395,9 +450,7 @@
             </h1>
             &nbsp;
 
-            <img src="carta-juliana.jpg"
-                 alt="Carta de Juliana"
-                 class="carta-juliana">
+            <img src="carta-juliana.jpg" alt="Carta de Juliana" class="carta-juliana">
 
             <div class="box-invitado">
                 <div class="intro-label" style="font-size: 11px; margin: 0;">Fecha del evento</div>
@@ -443,12 +496,17 @@
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 3: GALERÍA ====== -->
+        <!-- ====== SECCIÓN 3: GALERÍA / CARRUSEL ====== -->
         <section class="seccion" id="galeria">
             <div class="intro-label">Galería</div>
-            <div class="carrusel-wrapper">
-                <div class="carrusel-slide activo" style="background-image: url('https://unsplash.com');"></div>
+
+            <div class="carrusel-wrapper" id="carrusel">
+                <!-- Los 25 slides se generan por JavaScript para mantener el HTML limpio -->
+                <button class="carrusel-flecha prev" onclick="cambiarSlide(-1)" aria-label="Anterior">❮</button>
+                <button class="carrusel-flecha next" onclick="cambiarSlide(1)" aria-label="Siguiente">❯</button>
+                <div class="carrusel-puntos" id="carruselPuntos"></div>
             </div>
+
             <div class="carrusel-nav">
                 <button class="btn-carrusel" onclick="cambiarSlide(-1)">Ant</button>
                 <button class="btn-carrusel" onclick="cambiarSlide(1)">Sig</button>
@@ -473,24 +531,84 @@
     </main>
 
     <script>
-        // ====== CARRUSEL ======
-        let slideIndice = 0;
-        function cambiarSlide(dir) {
-            const s = document.querySelectorAll('.carrusel-slide');
-            s[slideIndice].classList.remove('activo');
-            slideIndice = (slideIndice + dir + s.length) % s.length;
-            s[slideIndice].classList.add('activo');
+        // ====== CARRUSEL (25 imágenes, auto-deslizamiento) ======
+        const TOTAL_IMAGENES = 25;
+        const EXTENSION = '.jpeg';        // cambia a '.jpge' si tus archivos tienen esa extensión
+        const CARPETA = '';              // ej: 'img/' si las tienes en una subcarpeta
+        const INTERVALO_MS = 3000;       // 3 segundos entre cada imagen
+
+        const carruselWrapper = document.getElementById('carrusel');
+        const puntosContenedor = document.getElementById('carruselPuntos');
+
+        // Crear dinámicamente los slides (1..25) y los puntos
+        for (let i = 1; i <= TOTAL_IMAGENES; i++) {
+            const slide = document.createElement('div');
+            slide.className = 'carrusel-slide' + (i === 1 ? ' activo' : '');
+            slide.style.backgroundImage = `url('${CARPETA}${i}${EXTENSION}')`;
+            // Insertar antes de las flechas/puntos (al inicio del wrapper)
+            carruselWrapper.insertBefore(slide, carruselWrapper.firstChild);
+
+            const punto = document.createElement('button');
+            punto.className = 'carrusel-punto' + (i === 1 ? ' activo' : '');
+            punto.setAttribute('aria-label', 'Ir a imagen ' + i);
+            punto.onclick = () => irASlide(i - 1);
+            puntosContenedor.appendChild(punto);
         }
 
+        let slideIndice = 0;
+        let autoTimer = null;
+
+        function mostrarSlide(nuevoIndice) {
+            const slides = document.querySelectorAll('.carrusel-slide');
+            const puntos = document.querySelectorAll('.carrusel-punto');
+
+            slides[slideIndice].classList.remove('activo');
+            puntos[slideIndice].classList.remove('activo');
+
+            slideIndice = (nuevoIndice + slides.length) % slides.length;
+
+            slides[slideIndice].classList.add('activo');
+            puntos[slideIndice].classList.add('activo');
+        }
+
+        function cambiarSlide(dir) {
+            mostrarSlide(slideIndice + dir);
+            reiniciarAuto();
+        }
+
+        function irASlide(indice) {
+            mostrarSlide(indice);
+            reiniciarAuto();
+        }
+
+        function iniciarAuto() {
+            detenerAuto();
+            autoTimer = setInterval(() => {
+                mostrarSlide(slideIndice + 1);
+            }, INTERVALO_MS);
+        }
+
+        function detenerAuto() {
+            if (autoTimer) clearInterval(autoTimer);
+        }
+
+        function reiniciarAuto() {
+            iniciarAuto();
+        }
+
+        // Pausar cuando el mouse esté encima (para que no cambie mientras se mira)
+        carruselWrapper.addEventListener('mouseenter', detenerAuto);
+        carruselWrapper.addEventListener('mouseleave', iniciarAuto);
+
+        // Arrancar
+        iniciarAuto();
+
         // ====== CUENTA REGRESIVA ======
-        // Fecha objetivo: 14 de noviembre de 2026, 7:00 p.m. (hora local)
-        // OJO: en JavaScript los meses van de 0 a 11 → noviembre = 10
         const fechaBoda = new Date(2026, 10, 14, 19, 0, 0);
 
         function actualizarCuentaRegresiva() {
             const ahora = new Date();
             let diferencia = fechaBoda - ahora;
-
             if (diferencia < 0) diferencia = 0;
 
             const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
@@ -509,7 +627,6 @@
 
         // ====== REPRODUCTOR DE AUDIO ======
         const audio = document.getElementById('audioMajo');
-        const btnAudio = document.getElementById('btnAudio');
         const iconoPlay = document.getElementById('iconoPlay');
         const iconoPausa = document.getElementById('iconoPausa');
         const progreso = document.getElementById('audioProgreso');
@@ -525,11 +642,8 @@
         }
 
         function toggleAudio() {
-            if (audio.paused) {
-                audio.play();
-            } else {
-                audio.pause();
-            }
+            if (audio.paused) audio.play();
+            else audio.pause();
         }
 
         audio.addEventListener('play', () => {
@@ -548,8 +662,7 @@
 
         audio.addEventListener('timeupdate', () => {
             if (!isNaN(audio.duration)) {
-                const pct = (audio.currentTime / audio.duration) * 100;
-                progreso.style.width = pct + '%';
+                progreso.style.width = (audio.currentTime / audio.duration) * 100 + '%';
             }
             tiempoActual.textContent = formatearTiempo(audio.currentTime);
         });
@@ -563,11 +676,8 @@
 
         function seekAudio(e) {
             const rect = barra.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const pct = clickX / rect.width;
-            if (!isNaN(audio.duration)) {
-                audio.currentTime = pct * audio.duration;
-            }
+            const pct = (e.clientX - rect.left) / rect.width;
+            if (!isNaN(audio.duration)) audio.currentTime = pct * audio.duration;
         }
     </script>
 </body>
