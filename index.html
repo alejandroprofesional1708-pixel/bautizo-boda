@@ -504,37 +504,6 @@
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 2: MENSAJE DE AUDIO ====== -->
-        <section class="seccion" id="mensaje-audio">
-            <div class="intro-label">Un mensaje para ti</div>
-
-            <div class="audio-card">
-                <div class="audio-titulo">Palabras de Majo</div>
-                <div class="audio-subtitulo">Dale play para escuchar</div>
-
-                <div class="audio-controles">
-                    <button class="btn-audio" id="btnAudio" onclick="toggleAudio()" aria-label="Reproducir">
-                        <svg id="iconoPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        <svg id="iconoPausa" viewBox="0 0 24 24" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-                    </button>
-
-                    <div class="audio-barra-wrapper">
-                        <div class="audio-barra" id="audioBarra" onclick="seekAudio(event)">
-                            <div class="audio-progreso" id="audioProgreso"></div>
-                        </div>
-                        <div class="audio-tiempos">
-                            <span id="audioActual">0:00</span>
-                            <span id="audioDuracion">0:00</span>
-                        </div>
-                    </div>
-                </div>
-
-                <audio id="audioMajo" src="palabras-majo.mp3" preload="metadata"></audio>
-            </div>
-        </section>
-
-        
-
         <!-- ====== SECCIÓN 3: GALERÍA / MÓDULO DE IMAGEN ====== -->
         <section class="seccion" id="galeria">
             <div class="intro-label">Galería</div>
