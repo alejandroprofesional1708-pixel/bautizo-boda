@@ -527,6 +527,9 @@
         }, INTERVALO_MS);
 
         // ====== CUENTA REGRESIVA (7:00 PM hora Colombia, UTC-5) ======
+        // Fecha objetivo: 14 de noviembre de 2026, 19:00 (7 PM) hora Colombia.
+        // Se declara con offset -05:00 para que el conteo sea el mismo
+        // sin importar la zona horaria del visitante.
         const fechaBoda = new Date('2026-11-14T19:00:00-05:00');
 
         function actualizarCuentaRegresiva() {
