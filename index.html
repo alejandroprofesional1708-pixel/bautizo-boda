@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La boda de Juliana y Manuel</title>
-     
 
     <!-- Tipografía Pinyon Script (Google Fonts) -->
     <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
@@ -151,23 +150,54 @@
             margin: 5px;
         }
 
-        /* ====== CONTADOR ====== */
+        /* =========================================================
+           CONTADOR — SIEMPRE EN UNA SOLA LÍNEA
+           ========================================================= */
+        .contador-wrapper {
+            width: 90%;
+            max-width: 560px;
+            margin: 30px auto;
+            container-type: inline-size;
+        }
+
         .contador-container {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 2.2cqw;
         }
+
         .contador-bloque {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 2.2cqw 1.4cqw;
+            border-radius: 10px;
             background: var(--gris-suave);
             border: 1px solid rgba(197, 160, 89, 0.25);
-            min-width: 75px;
-            padding: 12px;
-            border-radius: 10px;
+            text-align: center;
+            overflow: hidden;
         }
-        .contador-num { font-size: 24px; font-weight: 600; color: var(--dorado); }
-        .contador-label { font-size: 10px; text-transform: uppercase; color: #666; letter-spacing: 1px; }
+
+        .contador-num {
+            font-size: 22px;
+            font-size: clamp(12px, 5.5cqw, 26px);
+            font-weight: 600;
+            color: var(--dorado);
+            line-height: 1.1;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .contador-label {
+            font-size: 9px;
+            font-size: clamp(7px, 2.2cqw, 10px);
+            text-transform: uppercase;
+            color: #666;
+            letter-spacing: 0.08em;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
 
         /* ====== REPRODUCTOR DE AUDIO ====== */
         .audio-card {
@@ -261,7 +291,7 @@
         .imagen-modulo {
             width: 400px;
             height: 600px;
-            max-width: 100%;       /* evita desbordar en pantallas muy pequeñas */
+            max-width: 100%;
             margin: 0 auto;
             position: relative;
             border-radius: 25px;
@@ -289,7 +319,6 @@
             will-change: transform;
         }
 
-        /* Hover: pequeño zoom */
         .imagen-modulo .slide:hover img {
             transform: scale(1.05);
         }
@@ -324,6 +353,84 @@
             text-transform: uppercase;
         }
 
+        /* =========================================================
+           DETALLES + MAPAS (2 COLUMNAS)
+           ========================================================= */
+        .detalles-textos {
+            margin-top: 20px;
+        }
+
+        .detalles-textos p {
+            max-width: 750px;
+            margin: 6px auto;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #333;
+            font-style: italic;
+        }
+
+        .mapas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mapa-card {
+            background: var(--gris-suave);
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .mapa-titulo {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 34px;
+            color: var(--dorado);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .mapa-enunciado {
+            display: inline-block;
+            font-size: 13px;
+            color: #555;
+            letter-spacing: 1px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .mapa-enunciado:hover { color: var(--dorado); }
+
+        .mapa-enunciado::after {
+            content: " ↗";
+            color: var(--dorado);
+        }
+
+        .mapa-iframe-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%; /* relación 4:3 */
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f4f1ea;
+            border: 1px solid #e0e0e0;
+        }
+
+        .mapa-iframe-wrapper iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         /* ================= MÓVIL ================= */
         @media (max-width: 768px) {
             .landing { padding: 20px 12px 60px 12px; }
@@ -351,12 +458,27 @@
             /* El módulo de imagen conserva 400x600 en móvil */
             .imagen-modulo { width: 400px; height: 600px; }
 
-            .contador-bloque { min-width: 65px; padding: 10px; }
-            .contador-num { font-size: 20px; }
+            /* CONTADOR: 90% exacto del ancho del dispositivo */
+            .contador-wrapper {
+                width: 90vw;
+                max-width: none;
+                margin-left: calc(50% - 45vw);
+                margin-right: calc(50% - 45vw);
+            }
 
             .audio-card { padding: 20px; }
             .audio-titulo { font-size: 28px; }
             .btn-audio { width: 46px; height: 46px; }
+
+            /* MAPAS: una columna en móvil */
+            .mapas-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 30px;
+            }
+
+            .mapa-card { padding: 16px; }
+            .mapa-titulo { font-size: 28px; }
         }
 
         @media (max-width: 420px) {
@@ -408,11 +530,14 @@
                 <span class="pases-tag" style="background:#ddd; color:#333;">Girardot</span>
             </div>
 
-            <div class="contador-container">
-                <div class="contador-bloque"><div class="contador-num" id="dias">0</div><div class="contador-label">Días</div></div>
-                <div class="contador-bloque"><div class="contador-num" id="horas">0</div><div class="contador-label">Hrs</div></div>
-                <div class="contador-bloque"><div class="contador-num" id="minutos">0</div><div class="contador-label">Min</div></div>
-                <div class="contador-bloque"><div class="contador-num" id="segundos">0</div><div class="contador-label">Seg</div></div>
+            <!-- CONTADOR -->
+            <div class="contador-wrapper">
+                <div class="contador-container">
+                    <div class="contador-bloque"><div class="contador-num" id="dias">0</div><div class="contador-label">Días</div></div>
+                    <div class="contador-bloque"><div class="contador-num" id="horas">0</div><div class="contador-label">Hrs</div></div>
+                    <div class="contador-bloque"><div class="contador-num" id="minutos">0</div><div class="contador-label">Min</div></div>
+                    <div class="contador-bloque"><div class="contador-num" id="segundos">0</div><div class="contador-label">Seg</div></div>
+                </div>
             </div>
         </section>
 
@@ -424,7 +549,7 @@
             &nbsp;
 
             <h1 class="nombres">
-                <span>Luciana Álvarez Cañas</span>  
+                <span>Luciana Álvarez Cañas</span>
             </h1>
             &nbsp;
 
@@ -467,16 +592,60 @@
             <div class="intro-label">Galería</div>
 
             <div class="imagen-modulo" id="imagenModulo">
-                <!-- Los 27 slides se generan por JavaScript -->
+                <!-- Los slides se generan por JavaScript -->
             </div>
         </section>
 
-                <!-- ====== SECCIÓN 6: DETALLES ====== -->
+        <!-- ====== SECCIÓN 6: DETALLES + MAPAS ====== -->
         <section class="seccion" id="detalles">
             <div class="intro-label">Detalles</div>
-            <p class="historia-texto">Traje de Gala Formal.
-            </p>Lluvia de sobres</p>
-            
+
+            <div class="detalles-textos">
+                <p>Traje de Gala Formal.</p>
+                <p>Lluvia de sobres.</p>
+            </div>
+
+            <div class="mapas-grid">
+
+                <!-- IGLESIA -->
+                <div class="mapa-card">
+                    <h3 class="mapa-titulo">Ceremonia Religiosa</h3>
+                    <a class="mapa-enunciado"
+                       href="https://www.google.com/maps/search/?api=1&query=Parroquia+Nuestra+Se%C3%B1ora+de+la+Anunciaci%C3%B3n+Girardot"
+                       target="_blank" rel="noopener">
+                        Toca aquí para buscar la iglesia en Google Maps
+                    </a>
+                    <div class="mapa-iframe-wrapper">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.6203046403693!2d-74.8169451!3d4.293715199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f28fab78ff8c1%3A0xf35e1d693b5dcc35!2sParroquia%20Nuestra%20Se%C3%B1ora%20de%20la%20Anunciaci%C3%B3n!5e0!3m2!1ses!2sco!4v1792417235387!5m2!1ses!2sco"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            title="Ubicación de la Parroquia Nuestra Señora de la Anunciación">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- RECEPCIÓN -->
+                <div class="mapa-card">
+                    <h3 class="mapa-titulo">Recepción</h3>
+                    <a class="mapa-enunciado"
+                       href="https://www.google.com/maps/search/?api=1&query=4.2959182968213,-74.81669130556071"
+                       target="_blank" rel="noopener">
+                        Toca aquí para buscar la recepción en Google Maps
+                    </a>
+                    <div class="mapa-iframe-wrapper">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d380.7319428278456!2d-74.81669130556071!3d4.2959182968213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1792417679175!5m2!1ses!2sco"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            title="Ubicación de la recepción">
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
         <!-- ====== SECCIÓN 5: ASISTENCIA ====== -->
@@ -493,14 +662,13 @@
     </main>
 
     <script>
-        // ====== MÓDULO DE IMAGEN (27 imágenes, auto-rotación) ======
+        // ====== MÓDULO DE IMAGEN ======
         const TOTAL_IMAGENES = 35;
         const URL_BASE = 'https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/';
-        const INTERVALO_MS = 2500; // 3 segundos
+        const INTERVALO_MS = 2500;
 
         const modulo = document.getElementById('imagenModulo');
 
-        // Crear dinámicamente los slides (1..27)
         for (let i = 1; i <= TOTAL_IMAGENES; i++) {
             const slide = document.createElement('div');
             slide.className = 'slide' + (i === 1 ? ' activo' : '');
@@ -527,10 +695,7 @@
             mostrarSlide(slideIndice + 1);
         }, INTERVALO_MS);
 
-        // ====== CUENTA REGRESIVA (7:00 PM hora Colombia, UTC-5) ======
-        // Fecha objetivo: 14 de noviembre de 2026, 19:00 (7 PM) hora Colombia.
-        // Se declara con offset -05:00 para que el conteo sea el mismo
-        // sin importar la zona horaria del visitante.
+        // ====== CUENTA REGRESIVA ======
         const fechaBoda = new Date('2026-11-14T19:00:00-05:00');
 
         function actualizarCuentaRegresiva() {
