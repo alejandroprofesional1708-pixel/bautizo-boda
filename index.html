@@ -408,14 +408,16 @@
             line-height: 1.4;
         }
 
+        /* Enunciados de mapa: mismo estilo exacto para ambos,
+           sin negrilla y sin mayúsculas forzadas */
         .mapa-enunciado {
             display: inline-block;
             font-size: 13px;
             color: #555;
             letter-spacing: 1px;
             text-decoration: none;
-            font-weight: 600;
-            text-transform: uppercase;
+            font-weight: 400;        /* sin negrilla */
+            text-transform: none;    /* sin mayúsculas forzadas */
             transition: color 0.2s;
         }
 
@@ -644,7 +646,6 @@
                         Toca aquí para ver la ruta a la recepción
                     </a>
                     <div class="mapa-iframe-wrapper">
-                        <!-- Iframe con coordenadas directas, más fiable que la URL 'pb' -->
                         <iframe
                             src="https://maps.google.com/maps?q=4.2958979,-74.8163772&z=16&output=embed"
                             allowfullscreen=""
