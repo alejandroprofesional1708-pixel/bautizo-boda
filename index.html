@@ -387,27 +387,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        /* Título cursivo (usado en Ceremonia) */
-        .mapa-titulo {
-            font-family: 'Pinyon Script', cursive;
-            font-size: 34px;
-            color: var(--dorado);
-            margin: 0;
-            line-height: 1;
-        }
-
-        /* Título NO cursivo — misma tipografía de la tarjeta (Cinzel) */
-        .mapa-titulo-plano {
-            font-family: 'Cinzel', serif;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--dorado);
-            margin: 0;
-            line-height: 1.4;
-        }
-
         /* Enunciados de mapa: mismo estilo exacto para ambos */
         .mapa-enunciado {
             display: inline-block;
@@ -489,8 +468,6 @@
             }
 
             .mapa-card { padding: 16px; }
-            .mapa-titulo { font-size: 28px; }
-            .mapa-titulo-plano { font-size: 14px; letter-spacing: 2px; }
         }
 
         @media (max-width: 420px) {
@@ -619,7 +596,7 @@
 
                 <!-- IGLESIA -->
                 <div class="mapa-card">
-                    <h3 class="mapa-titulo">Ceremonia Religiosa</h3>
+                    <div class="intro-label">Ceremonia Religiosa</div>
                     <a class="mapa-enunciado"
                        href="https://www.google.com/maps/search/?api=1&query=Parroquia+Nuestra+Se%C3%B1ora+de+la+Anunciaci%C3%B3n+Girardot"
                        target="_blank" rel="noopener">
@@ -636,9 +613,9 @@
                     </div>
                 </div>
 
-                <!-- RECEPCIÓN (nueva ubicación) -->
+                <!-- RECEPCIÓN -->
                 <div class="mapa-card">
-                    <h3 class="mapa-titulo-plano">Recepción</h3>
+                    <div class="intro-label">Recepción</div>
                     <a class="mapa-enunciado"
                        href="https://www.google.com/maps/dir/?api=1&origin=4.2937152,-74.8169451&destination=4.295940888716023,-74.81632332484716"
                        target="_blank" rel="noopener">
