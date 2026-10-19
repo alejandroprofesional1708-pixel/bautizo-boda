@@ -387,7 +387,7 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        /* Título cursivo (por defecto, usado en Ceremonia) */
+        /* Título cursivo (usado en Ceremonia) */
         .mapa-titulo {
             font-family: 'Pinyon Script', cursive;
             font-size: 34px;
@@ -396,8 +396,7 @@
             line-height: 1;
         }
 
-        /* Título NO cursivo — misma tipografía de la tarjeta
-           (Cinzel, igual a los intro-label) */
+        /* Título NO cursivo — misma tipografía de la tarjeta (Cinzel) */
         .mapa-titulo-plano {
             font-family: 'Cinzel', serif;
             font-size: 16px;
@@ -469,10 +468,8 @@
                 margin: 25px auto;
             }
 
-            /* El módulo de imagen conserva 400x600 en móvil */
             .imagen-modulo { width: 400px; height: 600px; }
 
-            /* CONTADOR: 90% exacto del ancho del dispositivo */
             .contador-wrapper {
                 width: 90vw;
                 max-width: none;
@@ -484,7 +481,6 @@
             .audio-titulo { font-size: 28px; }
             .btn-audio { width: 46px; height: 46px; }
 
-            /* MAPAS: una columna en móvil */
             .mapas-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -556,7 +552,6 @@
             </div>
         </section>
 
-
         <!-- ====== SECCIÓN 2: BAUTIZO ====== -->
         <section class="seccion" id="bautizo">
             <div class="intro-label">Iluminación del Espíritu Santo</div>
@@ -571,7 +566,6 @@
             <img src="Bautizo-luciana.jpg" alt="Bautizo de Luciana" class="carta-juliana">
 
         </section>
-
 
         <!-- ====== SECCIÓN 3: MENSAJE DE AUDIO ====== -->
         <section class="seccion" id="mensaje-audio">
@@ -616,7 +610,7 @@
             <div class="intro-label">Detalles</div>
 
             <div class="detalles-textos">
-                <p>Traje Formal.</p>
+                <p>Traje de Gala Formal.</p>
                 <p>Lluvia de sobres.</p>
             </div>
 
@@ -645,16 +639,17 @@
                 <div class="mapa-card">
                     <h3 class="mapa-titulo-plano">Recepción</h3>
                     <a class="mapa-enunciado"
-                       href="https://www.google.com/maps/dir/?api=1&origin=4.2960452,-74.8171296&destination=4.2958979,-74.8163772"
+                       href="https://maps.app.goo.gl/t1tsJA7nggp8AGqo6"
                        target="_blank" rel="noopener">
                         Toca aquí para ver la ruta a la recepción
                     </a>
                     <div class="mapa-iframe-wrapper">
+                        <!-- Iframe con coordenadas directas, más fiable que la URL 'pb' -->
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d1989.30460007573!2d-74.817271276636!3d4.29584459671402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e0!4m3!3m2!1d4.2960452!2d-74.8171296!4m3!3m2!1d4.2958979!2d-74.81637719999999!5e0!3m2!1ses!2sco!4v1792418180146!5m2!1ses!2sco"
+                            src="https://maps.google.com/maps?q=4.2958979,-74.8163772&z=16&output=embed"
                             allowfullscreen=""
                             loading="lazy"
-                            referrerpolicy="strict-origin-when-cross-origin"
+                            referrerpolicy="no-referrer-when-downgrade"
                             title="Ubicación de la recepción">
                         </iframe>
                     </div>
@@ -669,7 +664,6 @@
             <p class="historia-texto">Confirma tu presencia con 5 días antes del evento para reservar tu lugar.</p>
             <a href="https://docs.google.com/forms/d/1B4fbpHgoJG_Ibs3gkjmogef3T70mZCmANl6-88nczwQ/viewform" class="btn-asistencia" target="_blank" rel="noopener">Confirmación de asistencia</a>
         </section>
-
 
         <div class="footer">Manuel & Juliana — 2026</div>
         <div class="footer">Que este día sea el inicio de una vida llena de luz, amor y bendiciones eternas.</div>
