@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La boda de Juliana y Manuel</title>
 
-    <!-- Tipografía Pinyon Script (Google Fonts) -->
     <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
 
     <style>
@@ -28,7 +27,9 @@
             scroll-behavior: smooth;
         }
 
-        /* ====== VIDEO DE FONDO RAÍZ ====== */
+        body.modal-abierto { overflow: hidden; }
+
+        /* ====== VIDEO DE FONDO ====== */
         .video-fondo-root {
             position: fixed;
             inset: 0;
@@ -37,7 +38,6 @@
             z-index: -2;
             pointer-events: none;
         }
-
         .velo-fondo {
             position: fixed;
             inset: 0;
@@ -46,7 +46,7 @@
             pointer-events: none;
         }
 
-        /* ====== CONTENEDOR PRINCIPAL ====== */
+        /* ====== LANDING ====== */
         .landing {
             position: relative;
             width: 100%;
@@ -56,7 +56,6 @@
             z-index: 1;
         }
 
-        /* ====== SECCIONES ====== */
         .seccion {
             background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(6px);
@@ -78,7 +77,6 @@
             line-height: 1.9;
         }
 
-        /* ====== NOMBRES CON PINYON SCRIPT ====== */
         h1.nombres {
             font-family: 'Pinyon Script', cursive;
             font-size: 80px;
@@ -92,9 +90,7 @@
             justify-content: center;
             gap: 0;
         }
-
         h1.nombres span { margin: 0; }
-
         h1.nombres .ampersand {
             font-size: 40px;
             color: var(--dorado);
@@ -103,7 +99,6 @@
             line-height: 0.8;
         }
 
-        /* ====== IMAGEN CARTA ====== */
         .carta-juliana {
             display: block;
             width: 90%;
@@ -118,7 +113,6 @@
             object-fit: contain;
         }
 
-        /* ====== PRIMER PÁRRAFO ====== */
         .historia-texto {
             max-width: 750px;
             margin: 100px auto 25px auto;
@@ -129,7 +123,6 @@
             padding-top: 20px;
         }
 
-        /* ====== BOX INVITADO ====== */
         .box-invitado {
             background-color: var(--gris-suave);
             border: 1px solid rgba(197, 160, 89, 0.35);
@@ -150,16 +143,13 @@
             margin: 5px;
         }
 
-        /* =========================================================
-           CONTADOR — SIEMPRE EN UNA SOLA LÍNEA
-           ========================================================= */
+        /* ====== CONTADOR ====== */
         .contador-wrapper {
             width: 90%;
             max-width: 560px;
             margin: 30px auto;
             container-type: inline-size;
         }
-
         .contador-container {
             display: flex;
             flex-wrap: nowrap;
@@ -167,7 +157,6 @@
             justify-content: space-between;
             gap: 2.2cqw;
         }
-
         .contador-bloque {
             flex: 1 1 0;
             min-width: 0;
@@ -178,9 +167,7 @@
             text-align: center;
             overflow: hidden;
         }
-
         .contador-num {
-            font-size: 22px;
             font-size: clamp(12px, 5.5cqw, 26px);
             font-weight: 600;
             color: var(--dorado);
@@ -188,9 +175,7 @@
             white-space: nowrap;
             font-variant-numeric: tabular-nums;
         }
-
         .contador-label {
-            font-size: 9px;
             font-size: clamp(7px, 2.2cqw, 10px);
             text-transform: uppercase;
             color: #666;
@@ -199,7 +184,301 @@
             white-space: nowrap;
         }
 
-        /* ====== REPRODUCTOR DE AUDIO ====== */
+        /* ====== POP-UP SELECTOR DE MÚSICA ====== */
+        .music-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 15, 10, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .music-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .music-modal {
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            border-radius: 24px;
+            padding: 50px 28px 28px;
+            max-width: 560px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+            position: relative;
+            transform: translateY(20px) scale(0.98);
+            transition: transform 0.4s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .music-modal-overlay.visible .music-modal {
+            transform: translateY(0) scale(1);
+        }
+        .music-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            font-size: 26px;
+            color: #999;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s, background 0.2s;
+            line-height: 1;
+        }
+        .music-modal-close:hover {
+            color: var(--oscuro);
+            background: rgba(0,0,0,0.05);
+        }
+        .music-modal-titulo {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 38px;
+            color: var(--dorado);
+            margin: 0 0 6px 0;
+            line-height: 1.1;
+            font-weight: 400;
+        }
+        .music-modal-desc {
+            font-size: 13px;
+            font-style: italic;
+            color: #777;
+            margin: 0 0 28px 0;
+            letter-spacing: 0.5px;
+        }
+        .musica-opciones {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+        .musica-opcion {
+            background: var(--gris-suave);
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            border-radius: 16px;
+            padding: 22px 16px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            color: inherit;
+            text-align: center;
+        }
+        .musica-opcion:hover {
+            transform: translateY(-3px);
+            border-color: var(--dorado);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.25);
+        }
+        .musica-opcion.activa {
+            background: var(--dorado);
+            border-color: var(--dorado);
+            color: white;
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.4);
+        }
+        .musica-num {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--dorado);
+            opacity: 0.8;
+        }
+        .musica-opcion.activa .musica-num { color: white; opacity: 0.9; }
+        .musica-icono {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--dorado);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            margin: 4px 0;
+            transition: all 0.3s;
+        }
+        .musica-opcion.activa .musica-icono {
+            background: white;
+            color: var(--dorado);
+        }
+        .musica-nombre {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            line-height: 1.4;
+        }
+        .music-skip {
+            background: transparent;
+            border: none;
+            color: #999;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: color 0.2s;
+            font-family: inherit;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .music-skip:hover { color: var(--dorado); }
+
+        /* ====== BOTÓN FLOTANTE (FAB) ====== */
+        .music-fab {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--dorado);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
+            z-index: 998;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .music-fab:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.6);
+        }
+        .music-fab:active {
+            transform: scale(0.95);
+        }
+        .music-fab svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            position: absolute;
+            transition: opacity 0.2s;
+        }
+        .music-fab .fab-icon-play,
+        .music-fab .fab-icon-pause { display: none; }
+        .music-fab[data-state="nota"]  .fab-icon-note  { display: block; }
+        .music-fab[data-state="play"]  .fab-icon-play  { display: block; }
+        .music-fab[data-state="pause"] .fab-icon-pause { display: block; }
+
+        .music-fab.reproduciendo {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4); }
+            50%      { box-shadow: 0 6px 30px rgba(197, 160, 89, 0.85); }
+        }
+
+        /* ====== MINI-REPRODUCTOR ====== */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(197, 160, 89, 0.5);
+            border-radius: 50px;
+            padding: 8px 8px 8px 18px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.18);
+            animation: slideUp 0.4s ease;
+            max-width: calc(100vw - 40px);
+        }
+        .music-player.visible { display: flex; }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+        .music-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .music-info:hover { background: rgba(197, 160, 89, 0.1); }
+        .music-label {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+            line-height: 1.2;
+        }
+        .music-title {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: var(--oscuro);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 140px;
+            line-height: 1.4;
+        }
+        .music-toggle {
+            background: var(--dorado);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .music-toggle:hover { transform: scale(1.08); }
+        .music-toggle:active { transform: scale(0.92); }
+        .music-close {
+            background: transparent;
+            color: #999;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            transition: color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .music-close:hover { color: var(--oscuro); }
+
+        /* ====== REPRODUCTOR AUDIO (Majo) ====== */
         .audio-card {
             max-width: 550px;
             margin: 30px auto;
@@ -209,7 +488,6 @@
             padding: 25px 30px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
-
         .audio-titulo {
             font-family: 'Pinyon Script', cursive;
             font-size: 34px;
@@ -217,7 +495,6 @@
             margin: 0 0 5px 0;
             line-height: 1;
         }
-
         .audio-subtitulo {
             font-size: 11px;
             letter-spacing: 2px;
@@ -225,19 +502,12 @@
             color: #888;
             margin-bottom: 20px;
         }
-
-        .audio-controles {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
+        .audio-controles { display: flex; align-items: center; gap: 15px; }
         .btn-audio {
             background: var(--dorado);
             color: white;
             border: none;
-            width: 52px;
-            height: 52px;
+            width: 52px; height: 52px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -247,19 +517,9 @@
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
         }
-        .btn-audio:hover {
-            transform: scale(1.06);
-            box-shadow: 0 6px 18px rgba(197, 160, 89, 0.5);
-        }
+        .btn-audio:hover { transform: scale(1.06); }
         .btn-audio svg { width: 20px; height: 20px; fill: white; }
-
-        .audio-barra-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
+        .audio-barra-wrapper { flex: 1; display: flex; flex-direction: column; gap: 6px; }
         .audio-barra {
             position: relative;
             height: 6px;
@@ -268,32 +528,21 @@
             cursor: pointer;
             overflow: hidden;
         }
-
         .audio-progreso {
-            position: absolute;
-            top: 0; left: 0;
-            height: 100%;
-            width: 0%;
+            position: absolute; top: 0; left: 0;
+            height: 100%; width: 0%;
             background: var(--dorado);
             border-radius: 3px;
             transition: width 0.1s linear;
         }
-
         .audio-tiempos {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #888;
-            letter-spacing: 1px;
+            display: flex; justify-content: space-between;
+            font-size: 11px; color: #888; letter-spacing: 1px;
         }
 
-        /* =========================================================
-           MÓDULO DE IMAGEN — con TRANSICIÓN fade
-           (400x600 fijo, todas apiladas, solo la activa visible)
-           ========================================================= */
+        /* ====== MÓDULO IMAGEN ====== */
         .imagen-modulo {
-            width: 400px;
-            height: 600px;
+            width: 400px; height: 600px;
             max-width: 100%;
             margin: 0 auto;
             position: relative;
@@ -301,10 +550,9 @@
             overflow: hidden;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             background: #f4f1ea;
-            cursor: pointer;          /* pista sutil de interactividad */
+            cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
-
         .imagen-modulo .slide {
             position: absolute;
             inset: 0;
@@ -314,26 +562,17 @@
             border-radius: 25px;
             overflow: hidden;
         }
-        .imagen-modulo .slide.activo {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
+        .imagen-modulo .slide.activo { opacity: 1; pointer-events: auto; }
         .imagen-modulo .slide img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             display: block;
             border-radius: 25px;
             transition: transform 0.6s ease;
             will-change: transform;
         }
+        .imagen-modulo .slide:hover img { transform: scale(1.05); }
 
-        .imagen-modulo .slide:hover img {
-            transform: scale(1.05);
-        }
-
-        /* ====== BOTÓN ASISTENCIA ====== */
         .btn-asistencia {
             display: inline-block;
             background-color: var(--dorado);
@@ -353,7 +592,6 @@
             box-shadow: 0 8px 20px rgba(197, 160, 89, 0.4);
         }
 
-        /* ====== FOOTER ====== */
         .footer {
             text-align: center;
             color: #666;
@@ -363,13 +601,8 @@
             text-transform: uppercase;
         }
 
-        /* =========================================================
-           DETALLES + MAPAS (2 COLUMNAS)
-           ========================================================= */
-        .detalles-textos {
-            margin-top: 20px;
-        }
-
+        /* ====== DETALLES + MAPAS ====== */
+        .detalles-textos { margin-top: 20px; }
         .detalles-textos p {
             max-width: 750px;
             margin: 6px auto;
@@ -378,14 +611,12 @@
             color: #333;
             font-style: italic;
         }
-
         .mapas-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-top: 40px;
         }
-
         .mapa-card {
             background: var(--gris-suave);
             border: 1px solid rgba(197, 160, 89, 0.35);
@@ -396,7 +627,6 @@
             gap: 12px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
-
         .mapa-enunciado {
             display: inline-block;
             font-size: 13px;
@@ -407,14 +637,8 @@
             text-transform: none;
             transition: color 0.2s;
         }
-
         .mapa-enunciado:hover { color: var(--dorado); }
-
-        .mapa-enunciado::after {
-            content: " ↗";
-            color: var(--dorado);
-        }
-
+        .mapa-enunciado::after { content: " ↗"; color: var(--dorado); }
         .mapa-iframe-wrapper {
             position: relative;
             width: 100%;
@@ -424,59 +648,65 @@
             background: #f4f1ea;
             border: 1px solid #e0e0e0;
         }
-
         .mapa-iframe-wrapper iframe {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; border: 0;
         }
 
         /* ================= MÓVIL ================= */
         @media (max-width: 768px) {
             .landing { padding: 20px 12px 60px 12px; }
-
             .seccion {
                 padding: 60px 20px;
                 margin-bottom: 24px;
                 border-radius: 18px;
             }
-
             h1.nombres { font-size: 45px; }
             h1.nombres .ampersand { font-size: 35px; margin: -6px 0; }
-
-            .historia-texto {
-                margin: 60px auto 20px auto;
-                padding-top: 15px;
-            }
-
-            .carta-juliana {
-                width: 100%;
-                max-width: 100%;
-                margin: 25px auto;
-            }
-
+            .historia-texto { margin: 60px auto 20px auto; padding-top: 15px; }
+            .carta-juliana { width: 100%; max-width: 100%; margin: 25px auto; }
             .imagen-modulo { width: 400px; height: 600px; }
-
             .contador-wrapper {
                 width: 90vw;
                 max-width: none;
                 margin-left: calc(50% - 45vw);
                 margin-right: calc(50% - 45vw);
             }
-
             .audio-card { padding: 20px; }
             .audio-titulo { font-size: 28px; }
             .btn-audio { width: 46px; height: 46px; }
-
-            .mapas-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                margin-top: 30px;
-            }
-
+            .mapas-grid { grid-template-columns: 1fr; gap: 20px; margin-top: 30px; }
             .mapa-card { padding: 16px; }
+
+            .music-modal { padding: 50px 20px 24px; border-radius: 20px; }
+            .music-modal-titulo { font-size: 30px; }
+            .musica-opciones { grid-template-columns: 1fr; gap: 10px; }
+            .musica-opcion {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 12px 16px;
+                text-align: left;
+                gap: 12px;
+            }
+            .musica-icono { margin: 0; width: 38px; height: 38px; }
+            .musica-nombre { flex: 1; }
+            .musica-num { display: none; }
+
+            .music-fab {
+                bottom: 14px;
+                left: 14px;
+                width: 56px;
+                height: 56px;
+            }
+            .music-player {
+                bottom: 14px;
+                right: 14px;
+                left: 84px;
+                padding: 8px 8px 8px 16px;
+                gap: 8px;
+            }
+            .music-title { max-width: none; flex: 1; }
+            .music-label { font-size: 8px; }
         }
 
         @media (max-width: 420px) {
@@ -488,17 +718,12 @@
             .intro-label { font-size: 11px; letter-spacing: 3px; }
             h1.nombres { font-size: 46px; }
             h1.nombres .ampersand { font-size: 32px; margin: -5px 0; }
-
-            .historia-texto {
-                margin: 50px auto 18px auto;
-                padding-top: 10px;
-            }
+            .historia-texto { margin: 50px auto 18px auto; padding-top: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- VIDEO DE FONDO RAÍZ -->
     <video class="video-fondo-root" autoplay muted loop playsinline preload="auto">
         <source src="White_rose_blooming_and_closing_20261010190041.mp4" type="video/mp4">
     </video>
@@ -506,19 +731,15 @@
 
     <main class="landing">
 
-        <!-- ====== SECCIÓN 1: INICIO (BODA) ====== -->
         <section class="seccion" id="inicio">
             <div class="intro-label">La unión de un gran amor</div>
-            &nbsp;
-            &nbsp;
-
+            &nbsp;&nbsp;
             <h1 class="nombres">
                 <span>Manuel Álvarez</span>
                 <span class="ampersand">&</span>
                 <span>Juliana Cañas</span>
             </h1>
             &nbsp;
-
             <img src="carta-juliana.jpg" alt="Carta de Juliana" class="carta-juliana">
 
             <div class="box-invitado">
@@ -528,7 +749,6 @@
                 <span class="pases-tag" style="background:#ddd; color:#333;">Girardot</span>
             </div>
 
-            <!-- CONTADOR -->
             <div class="contador-wrapper">
                 <div class="contador-container">
                     <div class="contador-bloque"><div class="contador-num" id="dias">0</div><div class="contador-label">Días</div></div>
@@ -539,35 +759,26 @@
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 2: BAUTIZO ====== -->
         <section class="seccion" id="bautizo">
             <div class="intro-label">Iluminación del Espíritu Santo</div>
-            &nbsp;
-            &nbsp;
-
+            &nbsp;&nbsp;
             <h1 class="nombres">
                 <span>Luciana Álvarez Cañas</span>
             </h1>
             &nbsp;
-
             <img src="Bautizo-luciana.jpg" alt="Bautizo de Luciana" class="carta-juliana">
-
         </section>
 
-        <!-- ====== SECCIÓN 3: MENSAJE DE AUDIO ====== -->
         <section class="seccion" id="mensaje-audio">
             <div class="intro-label">Un mensaje para ti</div>
-
             <div class="audio-card">
                 <div class="audio-titulo">Palabras de Majo</div>
                 <div class="audio-subtitulo">Dale play para escuchar</div>
-
                 <div class="audio-controles">
                     <button class="btn-audio" id="btnAudio" onclick="toggleAudio()" aria-label="Reproducir">
                         <svg id="iconoPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         <svg id="iconoPausa" viewBox="0 0 24 24" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
                     </button>
-
                     <div class="audio-barra-wrapper">
                         <div class="audio-barra" id="audioBarra" onclick="seekAudio(event)">
                             <div class="audio-progreso" id="audioProgreso"></div>
@@ -578,32 +789,22 @@
                         </div>
                     </div>
                 </div>
-
                 <audio id="audioMajo" src="palabras-majo.mp3" preload="metadata"></audio>
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 4: GALERÍA / MÓDULO DE IMAGEN ====== -->
         <section class="seccion" id="galeria">
             <div class="intro-label">Galería</div>
-
-            <div class="imagen-modulo" id="imagenModulo">
-                <!-- Los slides se generan por JavaScript -->
-            </div>
+            <div class="imagen-modulo" id="imagenModulo"></div>
         </section>
 
-        <!-- ====== SECCIÓN 6: DETALLES + MAPAS ====== -->
         <section class="seccion" id="detalles">
             <div class="intro-label">Detalles</div>
-
             <div class="detalles-textos">
                 <p>Traje de Gala Formal.</p>
                 <p>Lluvia de sobres.</p>
             </div>
-
             <div class="mapas-grid">
-
-                <!-- IGLESIA -->
                 <div class="mapa-card">
                     <div class="intro-label">Ceremonia Religiosa</div>
                     <a class="mapa-enunciado"
@@ -614,15 +815,12 @@
                     <div class="mapa-iframe-wrapper">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.6203046403693!2d-74.8169451!3d4.293715199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f28fab78ff8c1%3A0xf35e1d693b5dcc35!2sParroquia%20Nuestra%20Se%C3%B1ora%20de%20la%20Anunciaci%C3%B3n!5e0!3m2!1ses!2sco!4v1792417235387!5m2!1ses!2sco"
-                            allowfullscreen=""
-                            loading="lazy"
+                            allowfullscreen="" loading="lazy"
                             referrerpolicy="strict-origin-when-cross-origin"
-                            title="Ubicación de la Parroquia Nuestra Señora de la Anunciación">
+                            title="Ubicación de la Parroquia">
                         </iframe>
                     </div>
                 </div>
-
-                <!-- RECEPCIÓN -->
                 <div class="mapa-card">
                     <div class="intro-label">Recepción</div>
                     <a class="mapa-enunciado"
@@ -633,90 +831,337 @@
                     <div class="mapa-iframe-wrapper">
                         <iframe
                             src="https://maps.google.com/maps?q=4.295940888716023,-74.81632332484716&z=17&output=embed"
-                            allowfullscreen=""
-                            loading="lazy"
+                            allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"
                             title="Ubicación de la recepción">
                         </iframe>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- ====== SECCIÓN 5: ASISTENCIA ====== -->
         <section class="seccion" id="asistencia">
             <div class="intro-label">Asistencia</div>
             <p class="historia-texto">Confirma tu presencia con 5 días antes del evento para reservar tu lugar.</p>
-            <a href="https://docs.google.com/forms/d/1B4fbpHgoJG_Ibs3gkjmogef3T70mZCmANl6-88nczwQ/viewform" class="btn-asistencia" target="_blank" rel="noopener">Confirmación de asistencia</a>
+            <a href="https://docs.google.com/forms/d/1B4fbpHgoJG_Ibs3gkjmogef3T70mZCmANl6-88nczwQ/viewform"
+               class="btn-asistencia" target="_blank" rel="noopener">Confirmación de asistencia</a>
         </section>
 
         <div class="footer">Manuel & Juliana — 2026</div>
         <div class="footer">Que este día sea el inicio de una vida llena de luz, amor y bendiciones eternas.</div>
-
     </main>
+
+    <!-- POP-UP -->
+    <div class="music-modal-overlay" id="musicModal">
+        <div class="music-modal">
+            <button class="music-modal-close" id="musicModalClose" aria-label="Cerrar">×</button>
+            <div class="intro-label">Banda sonora</div>
+            <h2 class="music-modal-titulo">¿Con qué canción quieres ver la tarjeta?</h2>
+            <p class="music-modal-desc">Elige una para acompañar la experiencia</p>
+            <div class="musica-opciones">
+                <button class="musica-opcion" data-src="I-Lava-you.mp3" data-titulo="I Lava You">
+                    <span class="musica-num">01</span>
+                    <span class="musica-icono">▶</span>
+                    <span class="musica-nombre">I Lava You</span>
+                </button>
+                <button class="musica-opcion" data-src="Perfect.mp3" data-titulo="Perfect">
+                    <span class="musica-num">02</span>
+                    <span class="musica-icono">▶</span>
+                    <span class="musica-nombre">Perfect</span>
+                </button>
+                <button class="musica-opcion" data-src="Hasta-mi-final.mp3" data-titulo="Hasta Mi Final">
+                    <span class="musica-num">03</span>
+                    <span class="musica-icono">▶</span>
+                    <span class="musica-nombre">Hasta Mi Final</span>
+                </button>
+                <button class="musica-opcion" data-src="Quiereme-mientras.mp3" data-titulo="Quiéreme Mientras">
+                    <span class="musica-num">04</span>
+                    <span class="musica-icono">▶</span>
+                    <span class="musica-nombre">Quiéreme Mientras</span>
+                </button>
+            </div>
+            <button class="music-skip" id="musicSkip">Continuar sin música</button>
+        </div>
+    </div>
+
+    <!-- FAB -->
+    <button class="music-fab" id="musicFab" data-state="nota" aria-label="Música" title="Elegir canción">
+        <svg class="fab-icon-note" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        <svg class="fab-icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="fab-icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+    </button>
+
+    <!-- MINI-REPRODUCTOR -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-info" id="musicInfo" title="Cambiar canción">
+            <span class="music-label">Reproduciendo</span>
+            <span class="music-title" id="musicTitle">—</span>
+        </div>
+        <button class="music-toggle" id="musicToggle" aria-label="Reproducir/Pausar">❚❚</button>
+        <button class="music-close" id="musicClose" aria-label="Detener">×</button>
+    </div>
 
     <script>
         // =========================================================
+        // SELECTOR DE MÚSICA + MULTI-PAUSA + DUCKING
+        // =========================================================
+        const VOLUMEN_NORMAL = 0.80;   // 80 %
+        const VOLUMEN_DUCK   = 0.00;   // 0 % cuando suena Majo
+
+        const musicaAudio = new Audio();
+        musicaAudio.loop = true;
+        musicaAudio.volume = VOLUMEN_NORMAL;
+        musicaAudio.preload = 'auto';
+
+        const musicaOpciones = document.querySelectorAll('.musica-opcion');
+        const musicModal = document.getElementById('musicModal');
+        const musicModalClose = document.getElementById('musicModalClose');
+        const musicSkip = document.getElementById('musicSkip');
+        const musicFab = document.getElementById('musicFab');
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicInfo = document.getElementById('musicInfo');
+        const musicTitle = document.getElementById('musicTitle');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicClose = document.getElementById('musicClose');
+
+        let musicaActual = null;
+        let tituloActual = '';
+        let fabTimer = null;
+        let fabLongPress = false;
+
+        // ---- MEDIA SESSION ----
+        function configurarMediaSession(titulo) {
+            if (!('mediaSession' in navigator)) return;
+            try {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: titulo,
+                    artist: 'Boda · Manuel & Juliana',
+                    album: 'Banda sonora'
+                });
+                navigator.mediaSession.setActionHandler('play', () => {
+                    musicaAudio.play().catch(() => {});
+                });
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    musicaAudio.pause();
+                });
+                navigator.mediaSession.setActionHandler('stop', () => {
+                    detenerMusica();
+                });
+            } catch (e) {
+                console.warn('Media Session no disponible:', e);
+            }
+        }
+
+        function actualizarMediaSessionState() {
+            if (!('mediaSession' in navigator)) return;
+            navigator.mediaSession.playbackState = musicaAudio.paused ? 'paused' : 'playing';
+        }
+
+        // ---- UI ----
+        function actualizarUI() {
+            const hayMusica = !!musicaActual;
+
+            if (!hayMusica) {
+                musicFab.dataset.state = 'nota';
+                musicFab.title = 'Elegir canción';
+                musicFab.setAttribute('aria-label', 'Elegir canción');
+                musicFab.classList.remove('reproduciendo');
+            } else if (musicaAudio.paused) {
+                musicFab.dataset.state = 'play';
+                musicFab.title = 'Reanudar música (mantén presionado para cambiar)';
+                musicFab.setAttribute('aria-label', 'Reanudar música');
+                musicFab.classList.remove('reproduciendo');
+            } else {
+                musicFab.dataset.state = 'pause';
+                musicFab.title = 'Pausar música (mantén presionado para cambiar)';
+                musicFab.setAttribute('aria-label', 'Pausar música');
+                musicFab.classList.add('reproduciendo');
+            }
+
+            if (hayMusica) {
+                musicPlayer.classList.add('visible');
+                musicToggle.textContent = musicaAudio.paused ? '▶' : '❚❚';
+                musicToggle.setAttribute('aria-label', musicaAudio.paused ? 'Reanudar' : 'Pausar');
+            } else {
+                musicPlayer.classList.remove('visible');
+            }
+
+            actualizarMediaSessionState();
+        }
+
+        function abrirModal() {
+            musicModal.classList.add('visible');
+            document.body.classList.add('modal-abierto');
+        }
+        function cerrarModal() {
+            musicModal.classList.remove('visible');
+            document.body.classList.remove('modal-abierto');
+        }
+
+        function detenerMusica() {
+            musicaAudio.pause();
+            musicaAudio.currentTime = 0;
+            musicaActual = null;
+            tituloActual = '';
+            musicaOpciones.forEach(o => o.classList.remove('activa'));
+            musicTitle.textContent = '—';
+            if ('mediaSession' in navigator) {
+                try { navigator.mediaSession.metadata = null; } catch (e) {}
+            }
+            actualizarUI();
+        }
+
+        function togglePausa() {
+            if (!musicaActual) return;
+            if (musicaAudio.paused) {
+                musicaAudio.play().catch(err => console.warn(err));
+            } else {
+                musicaAudio.pause();
+            }
+        }
+
+        function seleccionarCancion(opcion) {
+            const src = opcion.dataset.src;
+            const titulo = opcion.dataset.titulo;
+
+            if (musicaActual === src) {
+                if (musicaAudio.paused) musicaAudio.play().catch(() => {});
+                cerrarModal();
+                return;
+            }
+
+            musicaActual = src;
+            tituloActual = titulo;
+            musicaOpciones.forEach(o => o.classList.remove('activa'));
+            opcion.classList.add('activa');
+            musicTitle.textContent = titulo;
+
+            musicaAudio.src = src;
+            // Si el audio de Majo está sonando, mantenemos el volumen bajo
+            const majoSonando = !audio.paused && !audio.ended;
+            musicaAudio.volume = majoSonando ? VOLUMEN_DUCK : VOLUMEN_NORMAL;
+            musicaAudio.play().catch(err => console.warn('Audio play error:', err));
+
+            configurarMediaSession(titulo);
+            actualizarUI();
+            cerrarModal();
+        }
+
+        // ---- Pop-up ----
+        musicaOpciones.forEach(opcion => {
+            opcion.addEventListener('click', () => seleccionarCancion(opcion));
+        });
+        musicModalClose.addEventListener('click', cerrarModal);
+        musicSkip.addEventListener('click', cerrarModal);
+        musicModal.addEventListener('click', (e) => {
+            if (e.target === musicModal) cerrarModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && musicModal.classList.contains('visible')) {
+                cerrarModal();
+            }
+        });
+
+        // ---- FAB ----
+        musicFab.addEventListener('pointerdown', () => {
+            fabLongPress = false;
+            clearTimeout(fabTimer);
+            fabTimer = setTimeout(() => {
+                fabLongPress = true;
+                if (navigator.vibrate) navigator.vibrate(30);
+                abrirModal();
+            }, 600);
+        });
+        musicFab.addEventListener('pointerup', () => clearTimeout(fabTimer));
+        musicFab.addEventListener('pointerleave', () => clearTimeout(fabTimer));
+        musicFab.addEventListener('pointercancel', () => clearTimeout(fabTimer));
+        musicFab.addEventListener('click', (e) => {
+            if (fabLongPress) {
+                fabLongPress = false;
+                e.preventDefault();
+                return;
+            }
+            if (!musicaActual) {
+                abrirModal();
+            } else {
+                togglePausa();
+            }
+        });
+
+        // ---- Mini-reproductor ----
+        musicInfo.addEventListener('click', abrirModal);
+        musicToggle.addEventListener('click', togglePausa);
+        musicClose.addEventListener('click', detenerMusica);
+
+        // ---- Teclado: espacio o M ----
+        document.addEventListener('keydown', (e) => {
+            const tag = (e.target.tagName || '').toLowerCase();
+            const escribiendo = tag === 'input' || tag === 'textarea' || e.target.isContentEditable;
+            if (escribiendo) return;
+            if (e.code === 'Space' || e.key.toLowerCase() === 'm') {
+                if (musicaActual) {
+                    e.preventDefault();
+                    togglePausa();
+                }
+            }
+        });
+
+        // ---- Sincronizar UI ----
+        musicaAudio.addEventListener('play', actualizarUI);
+        musicaAudio.addEventListener('pause', actualizarUI);
+        musicaAudio.addEventListener('ended', actualizarUI);
+
+        // Abrir pop-up al cargar
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (!musicaActual) abrirModal();
+            }, 400);
+        });
+
+        actualizarUI();
+
+        // =========================================================
         // GALERÍA
-        // - 28 imágenes en total
-        // - Primero 21.jpg, 28.jpg, 13.jpg
-        // - Resto (1..28 sin esas) en orden aleatorio
-        // - Transición fade entre imágenes
-        // - Navegación: swipe (móvil) o clic mitad izquierda/derecha (escritorio)
-        // - Auto-avance cada 2.5s (se reinicia tras navegación manual)
         // =========================================================
         const TOTAL_IMAGENES = 28;
         const PRIMERAS = [21, 28, 13];
         const URL_BASE = 'https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/';
         const INTERVALO_MS = 2500;
 
-        // Construir el resto (números no incluidos en PRIMERAS)
         const resto = [];
         for (let i = 1; i <= TOTAL_IMAGENES; i++) {
             if (!PRIMERAS.includes(i)) resto.push(i);
         }
-
-        // Barajar resto (Fisher-Yates)
         for (let i = resto.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [resto[i], resto[j]] = [resto[j], resto[i]];
         }
-
         const orden = [...PRIMERAS, ...resto];
 
         const modulo = document.getElementById('imagenModulo');
 
-        // Crear slides
         orden.forEach((num, idx) => {
             const slide = document.createElement('div');
             slide.className = 'slide' + (idx === 0 ? ' activo' : '');
-
             const img = document.createElement('img');
             img.src = `${URL_BASE}${num}.jpg`;
             img.alt = 'Foto ' + num;
             img.loading = 'lazy';
             slide.appendChild(img);
-
             modulo.appendChild(slide);
         });
 
         let slideIndice = 0;
-
         function mostrarSlide(nuevo) {
             const slides = document.querySelectorAll('.imagen-modulo .slide');
             const total = slides.length;
             const indice = ((nuevo % total) + total) % total;
             if (indice === slideIndice) return;
-
             slides[slideIndice].classList.remove('activo');
             slides[indice].classList.add('activo');
             slideIndice = indice;
-
-            // Reiniciar el auto-avance tras navegación manual o automática
             iniciarAutoAvance();
         }
-
         let intervaloId = null;
         function iniciarAutoAvance() {
             if (intervaloId) clearInterval(intervaloId);
@@ -724,30 +1169,22 @@
         }
         iniciarAutoAvance();
 
-        // ===== Navegación por SWIPE (móvil) =====
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let wasSwipe = false;
-
+        let touchStartX = 0, touchStartY = 0, wasSwipe = false;
         modulo.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
             wasSwipe = false;
         }, { passive: true });
-
         modulo.addEventListener('touchend', (e) => {
             const diffX = touchStartX - e.changedTouches[0].screenX;
             const diffY = touchStartY - e.changedTouches[0].screenY;
-            // Solo si el gesto es principalmente horizontal
             if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
                 wasSwipe = true;
-                if (diffX > 0) mostrarSlide(slideIndice + 1); // deslizar ← = siguiente
-                else           mostrarSlide(slideIndice - 1); // deslizar → = anterior
+                if (diffX > 0) mostrarSlide(slideIndice + 1);
+                else           mostrarSlide(slideIndice - 1);
                 setTimeout(() => { wasSwipe = false; }, 350);
             }
         }, { passive: true });
-
-        // ===== Navegación por CLIC (escritorio y tap en móvil sin swipe) =====
         modulo.addEventListener('click', (e) => {
             if (wasSwipe) return;
             const rect = modulo.getBoundingClientRect();
@@ -758,27 +1195,21 @@
 
         // ====== CUENTA REGRESIVA ======
         const fechaBoda = new Date('2026-11-14T19:00:00-05:00');
-
         function actualizarCuentaRegresiva() {
             const ahora = new Date();
             let diferencia = fechaBoda - ahora;
             if (diferencia < 0) diferencia = 0;
-
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-            document.getElementById('dias').textContent = dias;
-            document.getElementById('horas').textContent = horas;
-            document.getElementById('minutos').textContent = minutos;
-            document.getElementById('segundos').textContent = segundos;
+            document.getElementById('dias').textContent = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            document.getElementById('horas').textContent = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('minutos').textContent = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('segundos').textContent = Math.floor((diferencia % (1000 * 60)) / 1000);
         }
-
         actualizarCuentaRegresiva();
         setInterval(actualizarCuentaRegresiva, 1000);
 
-        // ====== REPRODUCTOR DE AUDIO ======
+        // =========================================================
+        // AUDIO DE MAJO (con ducking de la música de fondo)
+        // =========================================================
         const audio = document.getElementById('audioMajo');
         const iconoPlay = document.getElementById('iconoPlay');
         const iconoPausa = document.getElementById('iconoPausa');
@@ -794,37 +1225,43 @@
             return m + ':' + (s < 10 ? '0' : '') + s;
         }
 
+        // No pausamos la música de fondo, solo la bajamos a 0 %
         function toggleAudio() {
-            if (audio.paused) audio.play();
-            else audio.pause();
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
         }
 
         audio.addEventListener('play', () => {
             iconoPlay.style.display = 'none';
             iconoPausa.style.display = 'block';
+            // DUCKING: la música de fondo sigue, pero a 0 %
+            musicaAudio.volume = VOLUMEN_DUCK;
         });
 
         audio.addEventListener('pause', () => {
             iconoPlay.style.display = 'block';
             iconoPausa.style.display = 'none';
+            // Restaurar la música de fondo al 80 %
+            musicaAudio.volume = VOLUMEN_NORMAL;
+        });
+
+        audio.addEventListener('ended', () => {
+            iconoPlay.style.display = 'block';
+            iconoPausa.style.display = 'none';
+            musicaAudio.volume = VOLUMEN_NORMAL;
         });
 
         audio.addEventListener('loadedmetadata', () => {
             tiempoDuracion.textContent = formatearTiempo(audio.duration);
         });
-
         audio.addEventListener('timeupdate', () => {
             if (!isNaN(audio.duration)) {
                 progreso.style.width = (audio.currentTime / audio.duration) * 100 + '%';
             }
             tiempoActual.textContent = formatearTiempo(audio.currentTime);
-        });
-
-        audio.addEventListener('ended', () => {
-            progreso.style.width = '0%';
-            tiempoActual.textContent = '0:00';
-            iconoPlay.style.display = 'block';
-            iconoPausa.style.display = 'none';
         });
 
         function seekAudio(e) {
