@@ -387,12 +387,26 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
+        /* Título cursivo (por defecto, usado en Ceremonia) */
         .mapa-titulo {
             font-family: 'Pinyon Script', cursive;
             font-size: 34px;
             color: var(--dorado);
             margin: 0;
             line-height: 1;
+        }
+
+        /* Título NO cursivo — misma tipografía de la tarjeta
+           (Cinzel, igual a los intro-label) */
+        .mapa-titulo-plano {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--dorado);
+            margin: 0;
+            line-height: 1.4;
         }
 
         .mapa-enunciado {
@@ -479,6 +493,7 @@
 
             .mapa-card { padding: 16px; }
             .mapa-titulo { font-size: 28px; }
+            .mapa-titulo-plano { font-size: 14px; letter-spacing: 2px; }
         }
 
         @media (max-width: 420px) {
@@ -602,6 +617,7 @@
 
             <div class="detalles-textos">
                 <p>Traje de Gala Formal.</p>
+                <p>Lluvia de sobres.</p>
             </div>
 
             <div class="mapas-grid">
@@ -627,15 +643,15 @@
 
                 <!-- RECEPCIÓN -->
                 <div class="mapa-card">
-                    <h3 class="mapa-titulo">Recepción</h3>
+                    <h3 class="mapa-titulo-plano">Recepción</h3>
                     <a class="mapa-enunciado"
-                       href="https://www.google.com/maps/search/?api=1&query=4.2959182968213,-74.81669130556071"
+                       href="https://www.google.com/maps/dir/?api=1&origin=4.2960452,-74.8171296&destination=4.2958979,-74.8163772"
                        target="_blank" rel="noopener">
-                        Toca aquí para buscar la recepción en Google Maps
+                        Toca aquí para ver la ruta a la recepción
                     </a>
                     <div class="mapa-iframe-wrapper">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d380.7319428278456!2d-74.81669130556071!3d4.2959182968213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1792417679175!5m2!1ses!2sco"
+                            src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d1989.30460007573!2d-74.817271276636!3d4.29584459671402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e0!4m3!3m2!1d4.2960452!2d-74.8171296!4m3!3m2!1d4.2958979!2d-74.81637719999999!5e0!3m2!1ses!2sco!4v1792418180146!5m2!1ses!2sco"
                             allowfullscreen=""
                             loading="lazy"
                             referrerpolicy="strict-origin-when-cross-origin"
@@ -662,7 +678,7 @@
 
     <script>
         // ====== MÓDULO DE IMAGEN ======
-        const TOTAL_IMAGENES = 28;
+        const TOTAL_IMAGENES = 35;
         const URL_BASE = 'https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/';
         const INTERVALO_MS = 2500;
 
