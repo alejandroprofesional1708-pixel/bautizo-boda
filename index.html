@@ -287,7 +287,10 @@
             letter-spacing: 1px;
         }
 
-        /* ====== MÓDULO DE IMAGEN (400x600 fijo) ====== */
+        /* =========================================================
+           MÓDULO DE IMAGEN — con TRANSICIÓN fade
+           (400x600 fijo, todas apiladas, solo la activa visible)
+           ========================================================= */
         .imagen-modulo {
             width: 400px;
             height: 600px;
@@ -298,16 +301,23 @@
             overflow: hidden;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             background: #f4f1ea;
+            cursor: pointer;          /* pista sutil de interactividad */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .imagen-modulo .slide {
-            display: none;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.9s ease-in-out;
+            pointer-events: none;
             border-radius: 25px;
+            overflow: hidden;
         }
-        .imagen-modulo .slide.activo { display: block; }
+        .imagen-modulo .slide.activo {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         .imagen-modulo .slide img {
             width: 100%;
@@ -387,7 +397,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        /* Enunciados de mapa: mismo estilo exacto para ambos */
         .mapa-enunciado {
             display: inline-block;
             font-size: 13px;
@@ -409,7 +418,7 @@
         .mapa-iframe-wrapper {
             position: relative;
             width: 100%;
-            padding-bottom: 75%; /* relación 4:3 */
+            padding-bottom: 75%;
             border-radius: 12px;
             overflow: hidden;
             background: #f4f1ea;
@@ -649,33 +658,36 @@
 
     <script>
         // =========================================================
-        // MÓDULO DE IMAGEN
-        // 1) Primero: 21.jpg, 28.jpg, 13.jpg (en ese orden exacto)
-        // 2) Después: el resto (1..35 sin 21,28,13) en orden aleatorio
+        // GALERÍA
+        // - 28 imágenes en total
+        // - Primero 21.jpg, 28.jpg, 13.jpg
+        // - Resto (1..28 sin esas) en orden aleatorio
+        // - Transición fade entre imágenes
+        // - Navegación: swipe (móvil) o clic mitad izquierda/derecha (escritorio)
+        // - Auto-avance cada 2.5s (se reinicia tras navegación manual)
         // =========================================================
         const TOTAL_IMAGENES = 28;
         const PRIMERAS = [21, 28, 13];
         const URL_BASE = 'https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/';
         const INTERVALO_MS = 2500;
 
-        // Construir el resto (números que no están en PRIMERAS)
+        // Construir el resto (números no incluidos en PRIMERAS)
         const resto = [];
         for (let i = 1; i <= TOTAL_IMAGENES; i++) {
             if (!PRIMERAS.includes(i)) resto.push(i);
         }
 
-        // Barajar el resto (Fisher-Yates) — se ejecuta una sola vez
+        // Barajar resto (Fisher-Yates)
         for (let i = resto.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [resto[i], resto[j]] = [resto[j], resto[i]];
         }
 
-        // Orden final: primeras fijas + resto aleatorio
         const orden = [...PRIMERAS, ...resto];
 
         const modulo = document.getElementById('imagenModulo');
 
-        // Crear los slides en el orden calculado
+        // Crear slides
         orden.forEach((num, idx) => {
             const slide = document.createElement('div');
             slide.className = 'slide' + (idx === 0 ? ' activo' : '');
@@ -691,16 +703,58 @@
 
         let slideIndice = 0;
 
-        function mostrarSlide(nuevoIndice) {
+        function mostrarSlide(nuevo) {
             const slides = document.querySelectorAll('.imagen-modulo .slide');
+            const total = slides.length;
+            const indice = ((nuevo % total) + total) % total;
+            if (indice === slideIndice) return;
+
             slides[slideIndice].classList.remove('activo');
-            slideIndice = (nuevoIndice + slides.length) % slides.length;
-            slides[slideIndice].classList.add('activo');
+            slides[indice].classList.add('activo');
+            slideIndice = indice;
+
+            // Reiniciar el auto-avance tras navegación manual o automática
+            iniciarAutoAvance();
         }
 
-        setInterval(() => {
-            mostrarSlide(slideIndice + 1);
-        }, INTERVALO_MS);
+        let intervaloId = null;
+        function iniciarAutoAvance() {
+            if (intervaloId) clearInterval(intervaloId);
+            intervaloId = setInterval(() => mostrarSlide(slideIndice + 1), INTERVALO_MS);
+        }
+        iniciarAutoAvance();
+
+        // ===== Navegación por SWIPE (móvil) =====
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let wasSwipe = false;
+
+        modulo.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+            wasSwipe = false;
+        }, { passive: true });
+
+        modulo.addEventListener('touchend', (e) => {
+            const diffX = touchStartX - e.changedTouches[0].screenX;
+            const diffY = touchStartY - e.changedTouches[0].screenY;
+            // Solo si el gesto es principalmente horizontal
+            if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+                wasSwipe = true;
+                if (diffX > 0) mostrarSlide(slideIndice + 1); // deslizar ← = siguiente
+                else           mostrarSlide(slideIndice - 1); // deslizar → = anterior
+                setTimeout(() => { wasSwipe = false; }, 350);
+            }
+        }, { passive: true });
+
+        // ===== Navegación por CLIC (escritorio y tap en móvil sin swipe) =====
+        modulo.addEventListener('click', (e) => {
+            if (wasSwipe) return;
+            const rect = modulo.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            if (x < rect.width / 2) mostrarSlide(slideIndice - 1);
+            else                    mostrarSlide(slideIndice + 1);
+        });
 
         // ====== CUENTA REGRESIVA ======
         const fechaBoda = new Date('2026-11-14T19:00:00-05:00');
