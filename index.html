@@ -648,25 +648,46 @@
     </main>
 
     <script>
-        // ====== MÓDULO DE IMAGEN ======
-        const TOTAL_IMAGENES = 30;
+        // =========================================================
+        // MÓDULO DE IMAGEN
+        // 1) Primero: 21.jpg, 28.jpg, 13.jpg (en ese orden exacto)
+        // 2) Después: el resto (1..35 sin 21,28,13) en orden aleatorio
+        // =========================================================
+        const TOTAL_IMAGENES = 35;
+        const PRIMERAS = [21, 28, 13];
         const URL_BASE = 'https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/';
         const INTERVALO_MS = 2500;
 
+        // Construir el resto (números que no están en PRIMERAS)
+        const resto = [];
+        for (let i = 1; i <= TOTAL_IMAGENES; i++) {
+            if (!PRIMERAS.includes(i)) resto.push(i);
+        }
+
+        // Barajar el resto (Fisher-Yates) — se ejecuta una sola vez
+        for (let i = resto.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [resto[i], resto[j]] = [resto[j], resto[i]];
+        }
+
+        // Orden final: primeras fijas + resto aleatorio
+        const orden = [...PRIMERAS, ...resto];
+
         const modulo = document.getElementById('imagenModulo');
 
-        for (let i = 1; i <= TOTAL_IMAGENES; i++) {
+        // Crear los slides en el orden calculado
+        orden.forEach((num, idx) => {
             const slide = document.createElement('div');
-            slide.className = 'slide' + (i === 1 ? ' activo' : '');
+            slide.className = 'slide' + (idx === 0 ? ' activo' : '');
 
             const img = document.createElement('img');
-            img.src = `${URL_BASE}${i}.jpg`;
-            img.alt = 'Foto ' + i;
+            img.src = `${URL_BASE}${num}.jpg`;
+            img.alt = 'Foto ' + num;
             img.loading = 'lazy';
             slide.appendChild(img);
 
             modulo.appendChild(slide);
-        }
+        });
 
         let slideIndice = 0;
 
