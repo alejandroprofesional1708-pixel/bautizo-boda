@@ -111,6 +111,21 @@
             object-fit: contain;
         }
 
+        /* Foto familiar al final de Asistencia */
+        .foto-familiar {
+            display: block;
+            width: 90%;
+            max-width: 900px;
+            height: auto;
+            margin: 40px auto 10px auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            padding: 8px;
+            object-fit: contain;
+        }
+
         .historia-texto {
             max-width: 750px;
             margin: 100px auto 25px auto;
@@ -181,7 +196,6 @@
             white-space: nowrap;
         }
 
-        /* ====== POP-UP SELECTOR DE MÚSICA ====== */
         .music-modal-overlay {
             position: fixed;
             inset: 0;
@@ -335,7 +349,6 @@
         }
         .music-skip:hover { color: var(--dorado); }
 
-        /* ====== MINI-REPRODUCTOR (único elemento flotante) ====== */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -414,7 +427,7 @@
             height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            display: none;           /* oculto por defecto */
+            display: none;
             align-items: center;
             justify-content: center;
             font-size: 20px;
@@ -426,7 +439,6 @@
         .music-close.visible { display: flex; }
         .music-close:hover { color: var(--oscuro); }
 
-        /* ====== AUDIO MAJO ====== */
         .audio-card {
             max-width: 550px;
             margin: 30px auto;
@@ -488,7 +500,6 @@
             font-size: 11px; color: #888; letter-spacing: 1px;
         }
 
-        /* ====== GALERÍA ====== */
         .imagen-modulo {
             width: 400px; height: 600px;
             max-width: 100%;
@@ -600,7 +611,6 @@
             width: 100%; height: 100%; border: 0;
         }
 
-        /* ================= MÓVIL ================= */
         @media (max-width: 768px) {
             .landing { padding: 20px 12px 60px 12px; }
             .seccion {
@@ -612,6 +622,7 @@
             h1.nombres .ampersand { font-size: 35px; margin: -6px 0; }
             .historia-texto { margin: 60px auto 20px auto; padding-top: 15px; }
             .carta-juliana { width: 100%; max-width: 100%; margin: 25px auto; }
+            .foto-familiar { width: 100%; max-width: 100%; margin: 30px auto 5px auto; }
             .imagen-modulo { width: 400px; height: 600px; }
             .contador-wrapper {
                 width: 90vw;
@@ -639,7 +650,6 @@
             .musica-nombre { flex: 1; }
             .musica-num { display: none; }
 
-            /* Mini-reproductor ocupa todo el ancho abajo */
             .music-player {
                 bottom: 14px;
                 right: 14px;
@@ -784,11 +794,19 @@
             </div>
         </section>
 
+        <!-- ASISTENCIA + Foto Familiar al final -->
         <section class="seccion" id="asistencia">
             <div class="intro-label">Asistencia</div>
             <p class="historia-texto">Confirma tu presencia con 5 días antes del evento para reservar tu lugar.</p>
             <a href="https://docs.google.com/forms/d/1B4fbpHgoJG_Ibs3gkjmogef3T70mZCmANl6-88nczwQ/viewform"
                class="btn-asistencia" target="_blank" rel="noopener">Confirmación de asistencia</a>
+
+            <!-- Foto Familiar al final de la tarjeta -->
+            <img
+                src="https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/Foto%20Familiar.jpg"
+                alt="Foto Familiar"
+                class="foto-familiar"
+                loading="lazy">
         </section>
 
         <div class="footer">Manuel & Juliana — 2026</div>
@@ -836,7 +854,7 @@
         </div>
     </div>
 
-    <!-- MINI-REPRODUCTOR (único flotante) -->
+    <!-- MINI-REPRODUCTOR -->
     <div class="music-player" id="musicPlayer">
         <div class="music-info" id="musicInfo" title="Cambiar canción">
             <span class="music-label" id="musicLabel">Música</span>
@@ -847,9 +865,6 @@
     </div>
 
     <script>
-        // =========================================================
-        // SELECTOR DE MÚSICA
-        // =========================================================
         const VOLUMEN_NORMAL = 0.80;
         const VOLUMEN_DUCK   = 0.00;
 
@@ -862,7 +877,6 @@
         const musicModal = document.getElementById('musicModal');
         const musicModalClose = document.getElementById('musicModalClose');
         const musicSkip = document.getElementById('musicSkip');
-        const musicPlayer = document.getElementById('musicPlayer');
         const musicInfo = document.getElementById('musicInfo');
         const musicLabel = document.getElementById('musicLabel');
         const musicTitle = document.getElementById('musicTitle');
@@ -872,7 +886,6 @@
         let musicaActual = null;
         let tituloActual = '';
 
-        // ---- MEDIA SESSION ----
         function configurarMediaSession(titulo) {
             if (!('mediaSession' in navigator)) return;
             try {
@@ -900,19 +913,16 @@
             navigator.mediaSession.playbackState = musicaAudio.paused ? 'paused' : 'playing';
         }
 
-        // ---- UI: mini-reproductor siempre visible con 2 estados ----
         function actualizarUI() {
             const hayMusica = !!musicaActual;
 
             if (hayMusica) {
-                // Con canción seleccionada
                 musicLabel.textContent = musicaAudio.paused ? 'En pausa' : 'Reproduciendo';
                 musicTitle.textContent = tituloActual;
                 musicToggle.textContent = musicaAudio.paused ? '▶' : '❚❚';
                 musicToggle.setAttribute('aria-label', musicaAudio.paused ? 'Reanudar' : 'Pausar');
                 musicClose.classList.add('visible');
             } else {
-                // Sin canción → invita a elegir
                 musicLabel.textContent = 'Música';
                 musicTitle.textContent = 'Elegir canción';
                 musicToggle.textContent = '▶';
@@ -992,16 +1002,11 @@
             }
         });
 
-        // Tocar la info del mini-reproductor → abre pop-up
         musicInfo.addEventListener('click', abrirModal);
-
-        // Botón del mini-reproductor: si no hay canción → abre modal · si hay → pausa/reanuda
         musicToggle.addEventListener('click', () => {
             if (!musicaActual) abrirModal();
             else togglePausa();
         });
-
-        // × → detiene y vuelve a "Elegir canción"
         musicClose.addEventListener('click', detenerMusica);
 
         document.addEventListener('keydown', (e) => {
@@ -1020,7 +1025,6 @@
         musicaAudio.addEventListener('pause', actualizarUI);
         musicaAudio.addEventListener('ended', actualizarUI);
 
-        // Abrir pop-up al cargar si no hay música
         window.addEventListener('load', () => {
             setTimeout(() => {
                 if (!musicaActual) abrirModal();
@@ -1117,7 +1121,7 @@
         setInterval(actualizarCuentaRegresiva, 1000);
 
         // =========================================================
-        // AUDIO DE MAJO (con ducking)
+        // AUDIO DE MAJO
         // =========================================================
         const audio = document.getElementById('audioMajo');
         const iconoPlay = document.getElementById('iconoPlay');
@@ -1144,19 +1148,16 @@
             iconoPausa.style.display = 'block';
             musicaAudio.volume = VOLUMEN_DUCK;
         });
-
         audio.addEventListener('pause', () => {
             iconoPlay.style.display = 'block';
             iconoPausa.style.display = 'none';
             musicaAudio.volume = VOLUMEN_NORMAL;
         });
-
         audio.addEventListener('ended', () => {
             iconoPlay.style.display = 'block';
             iconoPausa.style.display = 'none';
             musicaAudio.volume = VOLUMEN_NORMAL;
         });
-
         audio.addEventListener('loadedmetadata', () => {
             tiempoDuracion.textContent = formatearTiempo(audio.duration);
         });
