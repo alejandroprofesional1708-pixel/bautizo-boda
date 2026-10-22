@@ -111,7 +111,6 @@
             object-fit: contain;
         }
 
-        /* Foto familiar al final de Asistencia */
         .foto-familiar {
             display: block;
             width: 90%;
@@ -563,7 +562,6 @@
             touch-action: manipulation;
         }
 
-        /* Barrido de brillo lento */
         .btn-asistencia::before {
             content: "";
             position: absolute;
@@ -624,6 +622,94 @@
         @keyframes brilloBoton {
             0%, 55%   { left: -70%; }
             85%, 100% { left: 130%; }
+        }
+
+        /* ===== CTA DESTACADO AL INICIO ===== */
+        .cta-inicio {
+            margin: 40px auto 5px auto;
+            padding: 22px 18px 26px;
+            max-width: 520px;
+            text-align: center;
+            position: relative;
+            border-radius: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.0) 0%, rgba(244, 234, 225, 0.55) 100%);
+            border-top: 1px dashed rgba(197, 160, 89, 0.45);
+        }
+
+        .cta-inicio-texto {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 28px;
+            color: var(--dorado);
+            margin: 0 0 6px 0;
+            line-height: 1.15;
+            font-weight: 400;
+        }
+
+        .cta-inicio-subtexto {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8a7a5c;
+            margin: 0 0 20px 0;
+            line-height: 1.5;
+        }
+
+        /* Variante destacada: halo dorado que invita a pulsar */
+        .btn-asistencia-destacado {
+            padding: 20px 60px;
+            font-size: 14px;
+            letter-spacing: 3px;
+            animation: pulsoBotonFuerte 2.8s ease-in-out infinite;
+        }
+
+        .btn-asistencia-destacado::after {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border-radius: 50px;
+            border: 1.5px solid rgba(197, 160, 89, 0.55);
+            animation: haloBoton 2.8s ease-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .btn-asistencia-destacado:hover::after {
+            animation: none;
+            opacity: 0;
+        }
+
+        .btn-asistencia-destacado:hover {
+            animation: none;
+        }
+
+        @keyframes haloBoton {
+            0% {
+                opacity: 0.85;
+                transform: scale(0.97);
+            }
+            70% {
+                opacity: 0;
+                transform: scale(1.14);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.14);
+            }
+        }
+
+        @keyframes pulsoBotonFuerte {
+            0%, 100% {
+                box-shadow:
+                    0 14px 32px rgba(197, 160, 89, 0.45),
+                    0 4px 10px rgba(0, 0, 0, 0.10),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+            }
+            50% {
+                box-shadow:
+                    0 20px 46px rgba(197, 160, 89, 0.80),
+                    0 6px 16px rgba(0, 0, 0, 0.12),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+            }
         }
 
         .footer {
@@ -734,6 +820,14 @@
             }
             .music-title { max-width: none; flex: 1; }
             .music-label { font-size: 8px; }
+
+            .cta-inicio-texto { font-size: 24px; }
+            .cta-inicio-subtexto { font-size: 10px; letter-spacing: 2.2px; }
+            .btn-asistencia-destacado {
+                padding: 18px 38px;
+                font-size: 12.5px;
+                letter-spacing: 2.2px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -743,6 +837,13 @@
                 padding: 17px 24px;
                 font-size: 12px;
                 letter-spacing: 1.8px;
+            }
+            .btn-asistencia-destacado {
+                max-width: 100%;
+            }
+            .cta-inicio {
+                padding: 18px 12px 22px;
+                margin-top: 30px;
             }
         }
 
@@ -760,7 +861,9 @@
 
         @media (prefers-reduced-motion: reduce) {
             .btn-asistencia,
-            .btn-asistencia::before {
+            .btn-asistencia::before,
+            .btn-asistencia-destacado,
+            .btn-asistencia-destacado::after {
                 animation: none;
             }
         }
@@ -800,6 +903,17 @@
                     <div class="contador-bloque"><div class="contador-num" id="minutos">0</div><div class="contador-label">Min</div></div>
                     <div class="contador-bloque"><div class="contador-num" id="segundos">0</div><div class="contador-label">Seg</div></div>
                 </div>
+            </div>
+
+            <!-- ✅ CTA DESTACADO AL INICIO -->
+            <div class="cta-inicio">
+                <p class="cta-inicio-texto">¿Nos acompañas en este día?</p>
+                <p class="cta-inicio-subtexto">Confirma tu asistencia antes del evento</p>
+                <a href="https://docs.google.com/forms/d/1B4fbpHgoJG_Ibs3gkjmogef3T70mZCmANl6-88nczwQ/viewform"
+                   class="btn-asistencia btn-asistencia-destacado"
+                   target="_blank" rel="noopener">
+                    Confirmar asistencia
+                </a>
             </div>
         </section>
 
@@ -870,7 +984,7 @@
                 <div class="mapa-card">
                     <div class="intro-label">Recepción</div>
                     <a class="mapa-enunciado"
-                       href="https://www.google.com/maps/dir/?api=1&origin=4.2937152,-74.8169451&destination=4.295940888716023,-74.81632332484716"
+                       href="https://www.google.com/maps/dir/?api=1&origin=4.2937152,-74.8169451&destination=4.295940888716023,-74.81632484716"
                        target="_blank" rel="noopener">
                         Toca aquí para ver la ruta a la recepción
                     </a>
@@ -886,14 +1000,12 @@
             </div>
         </section>
 
-        <!-- ASISTENCIA + Foto Familiar al final -->
         <section class="seccion" id="asistencia">
             <div class="intro-label">Asistencia</div>
             <p class="historia-texto">Confirma tu presencia antes del evento para reservar tu lugar.</p>
             <a href="https://docs.google.com/forms/d/1B4fbpHgoJG_Ibs3gkjmogef3T70mZCmANl6-88nczwQ/viewform"
                class="btn-asistencia" target="_blank" rel="noopener">Confirmación de asistencia</a>
 
-            <!-- Foto Familiar al final de la tarjeta -->
             <img
                 src="https://raw.githubusercontent.com/alejandroprofesional1708-pixel/bautizo-boda/refs/heads/main/Foto%20Familiar.jpg"
                 alt="Foto Familiar"
